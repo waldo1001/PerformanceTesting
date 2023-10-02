@@ -22,7 +22,7 @@ steps:
   inputs:
     artifacttype: Sandbox
     versionselect: Weekly
-    artifactcountry: be
+    artifactcountry: base
 
 - task: ALOpsDockerStart@1
   displayName: 'ALOps - Start Docker Container' # No need to provide any details - it will get the details from previous step
