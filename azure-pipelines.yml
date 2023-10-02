@@ -6,8 +6,10 @@ trigger:
      - master
      - main
 
-# variables:
+variables:
 # - group: 'Secrets'  # link to a variable group that has secret variables, like URL to license file, or sasToken for insider builds
+  - name: bcpt_appinsights
+    value: 'InstrumentationKey=f8c1258a-940b-4deb-b680-d79c99e15493;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/'  
 
 pool: WaldoHetzner
 
@@ -50,6 +52,7 @@ steps:
      Test Runner
      Permissions Mock
      Library Variable Storage
+     Performance Toolkit
 
 - task: ALOpsAppCompiler@1
   displayName: 'ALOps - Compile Extension: App'
@@ -82,6 +85,30 @@ steps:
     usedocker: true
     nav_artifact_app_filter: '*.app'
     skip_verification: true   
+    
+- task: ALOpsDockerExec@1
+  displayName: "ApplicationInsightsConnectionString"
+  inputs:
+    inline_script: |
+      Set-NAVServerConfiguration -ServerInstance "BC" `
+                                 -KeyName  EnableLockTimeoutMonitoring  `
+                                 -KeyValue $true
+
+      Set-NAVServerConfiguration -ServerInstance "BC" `
+                                 -KeyName  EnableDeadlockMonitoring  `
+                                 -KeyValue $true
+   
+      Set-NAVServerConfiguration -ServerInstance "BC" `
+                                 -KeyName  SqlLongRunningThresholdForApplicationInsights  `
+                                 -KeyValue 500
+   
+      Set-NAVServerConfiguration -ServerInstance "BC" `
+                                 -KeyName  ALLongRunningFunctionTracingThresholdForApplicationInsights  `
+                                 -KeyValue 10000
+
+      Set-NAVServerInstance -ServerInstance "BC" -Restart
+
+      Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
 
 - task: ALOpsAppTest@1
   displayName: 'ALOps - Run TestSuite'
