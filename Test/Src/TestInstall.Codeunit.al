@@ -15,7 +15,7 @@ codeunit 69508 "Test Install"
         Me: ModuleInfo;
     begin
         NavApp.GetCurrentModuleInfo(Me);
-        SuiteName := copystr(me.Name().ToUpper().Replace('DISTRI-', '').Replace('-TEST', ''), 1, MaxStrLen(SuiteName));
+        SuiteName := 'DEFAULT';
 
         if ALTestSuite.Get(SuiteName) then
             ALTestSuite.DELETE(true);
