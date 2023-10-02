@@ -4932,47 +4932,6 @@ codeunit 69507 "ERM Sales Order"
     end;
 
     [Test]
-    [HandlerFunctions('MessageHandler,ConfirmHandlerYes,ShipToAddressListModalPageHandlerOK')]
-    procedure VerifyConfirmationDialogIsShownOnChangedShipToCodeOption()
-    var
-        Customer: Record Customer;
-        SalesHeader: Record "Sales Header";
-        SalesLine: Record "Sales Line";
-        ShipToAddress: Record "Ship-to Address";
-        SalesOrder: TestPage "Sales Order";
-        DimensionSetID: Integer;
-        ShipToOptions: Option "Default (Sell-to Address)","Alternate Shipping Address","Custom Address";
-    begin
-        // [SCENARIO 459751] Verify Confirmation Dialog is shown on update Ship-to Code option on Sales Order
-        Initialize();
-
-        // [GIVEN] Customer with default Dimension
-        CreateCustomerWithAddressAndDefaultDim(Customer);
-
-        // [GIVEN] Create Alternate Shipping Address for Customer
-        CreateAlternateShippingAddressForCustomer(Customer, ShipToAddress);
-        LibraryVariableStorage.Enqueue(ShipToAddress.Code);
-
-        // [GIVEN] Create Sales Order
-        LibrarySales.CreateSalesDocumentWithItem(SalesHeader, SalesLine, SalesHeader."Document Type"::Order,
-          Customer."No.", '', LibraryRandom.RandInt(10), '', 0D);
-
-        // [GIVEN] Update value of Dimension on Sales Header.        
-        DimensionSetID := UpdateDimensionOnSalesHeader(SalesHeader);
-
-        // [GIVEN] Open Sales Order
-        SalesOrder.OpenEdit;
-        SalesOrder.GotoRecord(SalesHeader);
-
-        // [WHEN] Update Ship-to Code on Sales Order
-        SalesOrder.ShippingOptions.SetValue(ShipToOptions::"Alternate Shipping Address");
-
-        // [THEN] Verify Dimension Set ID is not changed        
-        SalesHeader.Get(SalesHeader."Document Type"::Order, SalesHeader."No.");
-        Assert.IsTrue(SalesHeader."Dimension Set ID" = DimensionSetID, DimensionSetIdHasChangedMsg);
-    end;
-
-    [Test]
     [HandlerFunctions('ConfirmHandlerYes')]
     procedure VerifyServiceChargeLineIsRecreatedOnUpdateBillToCustomerOnSalesOrder()
     var

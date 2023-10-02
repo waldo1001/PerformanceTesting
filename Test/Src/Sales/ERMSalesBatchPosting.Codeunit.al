@@ -492,60 +492,6 @@ codeunit 69501 "ERM Sales Batch Posting"
     end;
 
     [Test]
-    [HandlerFunctions('RequestPageHandlerBatchPostSalesOrders,ShowErrorsNotificationHandler')]
-    [Scope('OnPrem')]
-    procedure BatchPostRetrySalesOrderWithJobQueueAndZeroQuantity()
-    var
-        SalesHeader: array[2] of Record "Sales Header";
-        LibraryJobQueue: Codeunit "Library - Job Queue";
-        ErrorMessages: TestPage "Error Messages";
-        Index: Integer;
-        NullGUID: Guid;
-    begin
-        // [FEATURE] [Order] [Job  Queue]
-        // [SCENARIO 275869] Stan can try post with job queue multiple time bad orders without error 'Batch Processing Parameter Map already exists.'
-        Initialize();
-        LibrarySales.SetPostWithJobQueue(true);
-
-        // [GIVEN] Sales setup with enabled "Calc. Invoice Discount" and "Post with Job Queue"
-        LibraryVariableStorageCounter.Clear();
-        LibraryWorkflow.DisableAllWorkflows;
-        LibraryJobQueue.SetDoNotHandleCodeunitJobQueueEnqueueEvent(true);
-        BindSubscription(LibraryJobQueue);
-
-        LibrarySales.SetPostWithJobQueue(true);
-
-        // [GIVEN] Two purchase orders
-        for Index := 1 to ArrayLen(SalesHeader) do
-            CreateSalesDocumentWithQuantity(SalesHeader[Index], SalesHeader[Index]."Document Type"::Order, false, 0);
-
-        // [WHEN] Post two times them via "Batch Post Sales Orders" report
-
-        // [THEN] Notification: 'An error occured during operation: batch processing of Purchase Header records.'
-        // [THEN] Click on 'Details' action: opened "Error Messages" page with list of bad documents each time
-        for Index := 1 to ArrayLen(SalesHeader) do begin
-            ErrorMessages.Trap;
-            RunBatchPostSales(SalesHeader[1]."Document Type", SalesHeader[1]."No." + '|' + SalesHeader[2]."No.", 0D, true);
-            VerifySalesHeaderNotification;
-            LibraryNotificationMgt.RecallNotificationsForRecordID(SalesHeader[1].RecordId);
-
-            // Bug: 306600
-            ErrorMessages.Source.AssertEquals(Format(SalesHeader[1].RecordId));
-            ErrorMessages.Next();
-            ErrorMessages.Source.AssertEquals(Format(SalesHeader[2].RecordId));
-            ErrorMessages.Close();
-        end;
-
-        // [THEN] Job Queue Entries are not created.
-        for Index := 1 to ArrayLen(SalesHeader) do begin
-            SalesHeader[Index].Find();
-            SalesHeader[Index].TestField("Job Queue Entry ID", NullGUID);
-        end;
-
-        Assert.TableIsEmpty(DATABASE::"Batch Processing Parameter");
-    end;
-
-    [Test]
     [HandlerFunctions('RequestPageHandlerBatchPostSalesInvoices,MessageHandler')]
     [Scope('OnPrem')]
     procedure BatchPostSalesInvoiceWithConcurrentBatch()

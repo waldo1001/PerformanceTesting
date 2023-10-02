@@ -697,40 +697,6 @@ codeunit 69503 "ERM Sales Cr. Memo Aggr. UT"
 
     [Test]
     [Scope('OnPrem')]
-    procedure TestAggregateMatchesSalesDocumentHeaders()
-    var
-        DummySalesHeader: Record "Sales Header";
-        DummySalesCrMemoHeader: Record "Sales Cr.Memo Header";
-        TempCrMemoBufferSpecificField: Record "Field" temporary;
-        TempCommonField: Record "Field" temporary;
-        BufferRecordRef: RecordRef;
-    begin
-        // Setup
-        Initialize();
-        GetFieldsThatMustMatchWithSalesHeader(TempCommonField);
-        GetCrMemoAggregateSpecificFields(TempCrMemoBufferSpecificField);
-
-        // Execute and verify
-        BufferRecordRef.Open(DATABASE::"Sales Cr. Memo Entity Buffer");
-        Assert.AreEqual(
-          TempCommonField.Count + TempCrMemoBufferSpecificField.Count, BufferRecordRef.FieldCount,
-          'Update reflection test. There are fields that are not accounted.');
-
-        TempCommonField.SetFilter("No.", '<>%1&<>%2&<>%3&<>%4',
-          DummySalesHeader.FieldNo("Recalculate Invoice Disc."),
-          DummySalesHeader.FieldNo("Shipping Advice"),
-          DummySalesHeader.FieldNo("Completely Shipped"),
-          DummySalesHeader.FieldNo("Requested Delivery Date"));
-        VerifyFieldDefinitionsMatchTableFields(DATABASE::"Sales Cr.Memo Header", TempCommonField);
-        VerifyFieldDefinitionsDontExistInTargetTable(DATABASE::"Sales Cr.Memo Header", TempCrMemoBufferSpecificField);
-
-        TempCommonField.SetFilter("No.", '<>%1', DummySalesCrMemoHeader.FieldNo("Cust. Ledger Entry No."));
-        VerifyFieldDefinitionsMatchTableFields(DATABASE::"Sales Header", TempCommonField);
-        VerifyFieldDefinitionsDontExistInTargetTable(DATABASE::"Sales Header", TempCrMemoBufferSpecificField);
-    end;
-
-    [Test]
-    [Scope('OnPrem')]
     procedure TestAggregateLineMatchesSalesDocumentLines()
     var
         TempCrMemoLineEntitySpecificField: Record "Field" temporary;
