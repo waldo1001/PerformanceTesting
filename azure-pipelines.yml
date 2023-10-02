@@ -77,6 +77,22 @@ steps:
     nav_app_version: '?.?.*.0'
     targetproject: 'test/app.json'                           # The Test-App
     failed_on_warnings: true    
+    app_file_suffix: '_TEST'     
+
+- task: ALOpsAppPublish@1
+  displayName: 'ALOps - Publish Extension'
+  inputs:
+    usedocker: true
+    nav_artifact_app_filter: '*.app'
+    skip_verification: true   
+
+- task: ALOpsAppCompiler@1
+  displayName: 'ALOps - Compile Extension: Test-App'
+  inputs:
+    usedocker: true
+    nav_app_version: '?.?.*.0'
+    targetproject: 'BCPT/app.json'                           # The Test-App
+    failed_on_warnings: true    
     app_file_suffix: '_TEST'                                 # A trick to uniquely identify the Test-App (from the App)
 
 - task: ALOpsAppPublish@1
