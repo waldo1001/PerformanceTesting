@@ -1,154 +1,169 @@
 name: $(Build.BuildId)
 
 trigger:
- branches:
-   include:
-     - master
-     - main
+  branches:
+    include:
+      - master
+      - main
 
 variables:
-# - group: 'Secrets'  # link to a variable group that has secret variables, like URL to license file, or sasToken for insider builds
+  # - group: 'Secrets'  # link to a variable group that has secret variables, like URL to license file, or sasToken for insider builds
   - name: bcpt_appinsights
-    value: 'InstrumentationKey=f8c1258a-940b-4deb-b680-d79c99e15493;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/'  
+    value: "InstrumentationKey=f8c1258a-940b-4deb-b680-d79c99e15493;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/"
 
 pool: WaldoHetzner
 
 steps:
-- checkout: self
-  clean: true 
+  - checkout: self
+    clean: true
 
-- task: ALOpsDockerCreate@1
-  displayName: 'ALOps - Create Docker Image if necessary' # It will reuse the image if already exists, or build one if it doesn't.
-  inputs:
-    artifacttype: Sandbox
-    versionselect: Weekly
-    artifactcountry: base
+  - task: ALOpsDockerCreate@1
+    displayName: "ALOps - Create Docker Image if necessary" # It will reuse the image if already exists, or build one if it doesn't.
+    inputs:
+      artifacttype: Sandbox
+      versionselect: Weekly
+      artifactcountry: base
 
-- task: ALOpsDockerStart@1
-  displayName: 'ALOps - Start Docker Container' # No need to provide any details - it will get the details from previous step
-  inputs:
-    docker_pull: false
-    docker_parameters: | 
-      --env customNavSettings=EnableTaskScheduler=false 
+  - task: ALOpsDockerStart@1
+    displayName: "ALOps - Start Docker Container" # No need to provide any details - it will get the details from previous step
+    inputs:
+      docker_pull: false
+      docker_parameters: |
+        --env customNavSettings=EnableTaskScheduler=false
 
-- task: ALOpsDockerWait@1
-  displayName: 'ALOps - Wait for Docker Container to start'
-  inputs:
-    search_string: 'Ready for connections!'
+  - task: ALOpsDockerWait@1
+    displayName: "ALOps - Wait for Docker Container to start"
+    inputs:
+      search_string: "Ready for connections!"
 
-#Install Test-apps - included in artifact, so easy to reference the names of the apps - ALOps will find them
-- task: ALOpsAppPublish@1
-  displayName: 'ALOps - Install AL TestTool' # install necessary dependent apps for testability
-  inputs:
-    usedocker: true
-    installaltesttool: true
-    skip_verification: true
-    install_al_app_names: |
-     Tests-TestLibraries
-     System Application Test
-     System Application Test Library
-     Any
-     Library Assert
-     Test Runner
-     Permissions Mock
-     Library Variable Storage
-     Performance Toolkit
+  #Install Test-apps - included in artifact, so easy to reference the names of the apps - ALOps will find them
+  - task: ALOpsAppPublish@1
+    displayName: "ALOps - Install AL TestTool" # install necessary dependent apps for testability
+    inputs:
+      usedocker: true
+      installaltesttool: true
+      skip_verification: true
+      install_al_app_names: |
+        Tests-TestLibraries
+        System Application Test
+        System Application Test Library
+        Any
+        Library Assert
+        Test Runner
+        Permissions Mock
+        Library Variable Storage
+        Performance Toolkit
 
-- task: ALOpsAppCompiler@1
-  displayName: 'ALOps - Compile Extension: App'
-  inputs:
-    usedocker: true
-    nav_app_version: '?.?.*.0'                              # ? = Take digit from the app.json, * = buildnumber
-    targetproject: 'app/app.json'                           # The App
-    app_file_suffix: '_APP'                                 # A trick to uniquely identify the APP (from the TEST-app)
+  - task: ALOpsAppCompiler@1
+    displayName: "ALOps - Compile Extension: App"
+    inputs:
+      usedocker: true
+      nav_app_version: "?.?.*.0" # ? = Take digit from the app.json, * = buildnumber
+      targetproject: "app/app.json" # The App
+      app_file_suffix: "_APP" # A trick to uniquely identify the APP (from the TEST-app)
 
-- task: ALOpsAppPublish@1
-  displayName: 'ALOps - Publish Extension'
-  inputs:
-    usedocker: true
-    nav_artifact_app_filter: '*.app'
-    skip_verification: true
+  - task: ALOpsAppPublish@1
+    displayName: "ALOps - Publish Extension"
+    inputs:
+      usedocker: true
+      nav_artifact_app_filter: "*.app"
+      skip_verification: true
 
-- task: ALOpsAppCompiler@1
-  displayName: 'ALOps - Compile Extension: Test-App'
-  inputs:
-    usedocker: true
-    nav_app_version: '?.?.*.0'
-    targetproject: 'test/app.json'
-    app_file_suffix: '_TEST'     
+  - task: ALOpsAppCompiler@1
+    displayName: "ALOps - Compile Extension: Test-App"
+    inputs:
+      usedocker: true
+      nav_app_version: "?.?.*.0"
+      targetproject: "test/app.json"
+      app_file_suffix: "_TEST"
 
-- task: ALOpsAppPublish@1
-  displayName: 'ALOps - Publish Extension'
-  inputs:
-    usedocker: true
-    nav_artifact_app_filter: '*.app'
-    skip_verification: true   
+  - task: ALOpsAppPublish@1
+    displayName: "ALOps - Publish Extension"
+    inputs:
+      usedocker: true
+      nav_artifact_app_filter: "*.app"
+      skip_verification: true
 
-- task: ALOpsAppCompiler@1
-  displayName: 'ALOps - Compile Extension: BCPT-App'
-  inputs:
-    usedocker: true
-    nav_app_version: '?.?.*.0'
-    targetproject: 'BCPT/app.json'                           # The Test-App
-    app_file_suffix: '_TEST'                                 # A trick to uniquely identify the Test-App (from the App)
+  - task: ALOpsAppCompiler@1
+    displayName: "ALOps - Compile Extension: BCPT-App"
+    inputs:
+      usedocker: true
+      nav_app_version: "?.?.*.0"
+      targetproject: "BCPT/app.json" # The Test-App
+      app_file_suffix: "_TEST" # A trick to uniquely identify the Test-App (from the App)
 
-- task: ALOpsAppPublish@1
-  displayName: 'ALOps - Publish Extension'
-  inputs:
-    usedocker: true
-    nav_artifact_app_filter: '*.app'
-    skip_verification: true   
+  - task: ALOpsAppPublish@1
+    displayName: "ALOps - Publish Extension"
+    inputs:
+      usedocker: true
+      nav_artifact_app_filter: "*.app"
+      skip_verification: true
 
-- task: ALOpsDockerExec@1
-  displayName: "ApplicationInsightsConnectionString"
-  inputs:
-    inline_script: |
-      Set-NAVServerConfiguration -ServerInstance "BC" `
-                                 -KeyName  EnableLockTimeoutMonitoring  `
-                                 -KeyValue $true
+  - task: ALOpsAppCompiler@1
+    displayName: "ALOps - Compile Extension: PerfTest-App"
+    inputs:
+      usedocker: true
+      nav_app_version: "?.?.*.0"
+      targetproject: "PerfTest/app.json" # The Test-App
+      app_file_suffix: "_TEST" # A trick to uniquely identify the Test-App (from the App)
 
-      Set-NAVServerConfiguration -ServerInstance "BC" `
-                                 -KeyName  EnableDeadlockMonitoring  `
-                                 -KeyValue $true
-   
-      Set-NAVServerConfiguration -ServerInstance "BC" `
-                                 -KeyName  SqlLongRunningThresholdForApplicationInsights  `
-                                 -KeyValue 500
-   
-      Set-NAVServerConfiguration -ServerInstance "BC" `
-                                 -KeyName  ALLongRunningFunctionTracingThresholdForApplicationInsights  `
-                                 -KeyValue 10000
+  - task: ALOpsAppPublish@1
+    displayName: "ALOps - Publish Extension"
+    inputs:
+      usedocker: true
+      nav_artifact_app_filter: "*.app"
+      skip_verification: true
 
-      Set-NAVServerInstance -ServerInstance "BC" -Restart
+  - task: ALOpsDockerExec@1
+    displayName: "ApplicationInsightsConnectionString"
+    inputs:
+      inline_script: |
+        Set-NAVServerConfiguration -ServerInstance "BC" `
+                                   -KeyName  EnableLockTimeoutMonitoring  `
+                                   -KeyValue $true
 
-      Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
+        Set-NAVServerConfiguration -ServerInstance "BC" `
+                                   -KeyName  EnableDeadlockMonitoring  `
+                                   -KeyValue $true
 
-- task: ALOpsAppTest@1
-  displayName: 'ALOps - Run TestSuite'
-  inputs:
-    usedocker: true
-    import_action: "Skip"
-    import_testtoolkit: false
-    testpage: '130455'
-    testsuite: 'DEFAULT'
-    failed_test_action: 'Ignore'
-  continueOnError: true   
+        Set-NAVServerConfiguration -ServerInstance "BC" `
+                                   -KeyName  SqlLongRunningThresholdForApplicationInsights  `
+                                   -KeyValue 500
 
-- task: PublishTestResults@2
-  displayName: 'Publish Test Results **/TestResults.xml'
-  inputs:
-    testResultsFormat: XUnit
-    testResultsFiles: '**/TestResults.xml'
-    testRunTitle: 'BC Test Results: $(Build.BuildId)'
+        Set-NAVServerConfiguration -ServerInstance "BC" `
+                                   -KeyName  ALLongRunningFunctionTracingThresholdForApplicationInsights  `
+                                   -KeyValue 10000
 
-# - task: ALOpsBCPT@1
-#   displayName: "Run BC Performance Tests"
-#   inputs:
-#     usedocker: true
-#     export_results: true
-#     suite_code: POS
+        Set-NAVServerInstance -ServerInstance "BC" -Restart
 
-- task: ALOpsDockerRemove@1
-  displayName: 'ALOps - Remove Docker Container'
-  enabled: true
-  condition: always()
+        Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
+
+  - task: ALOpsAppTest@1
+    displayName: "ALOps - Run TestSuite"
+    inputs:
+      usedocker: true
+      import_action: "Skip"
+      import_testtoolkit: false
+      testpage: "130455"
+      testsuite: "DEFAULT"
+      failed_test_action: "Ignore"
+    continueOnError: true
+
+  - task: PublishTestResults@2
+    displayName: "Publish Test Results **/TestResults.xml"
+    inputs:
+      testResultsFormat: XUnit
+      testResultsFiles: "**/TestResults.xml"
+      testRunTitle: "BC Test Results: $(Build.BuildId)"
+
+  # - task: ALOpsBCPT@1
+  #   displayName: "Run BC Performance Tests"
+  #   inputs:
+  #     usedocker: true
+  #     export_results: true
+  #     suite_code: POS
+
+  - task: ALOpsDockerRemove@1
+    displayName: "ALOps - Remove Docker Container"
+    enabled: true
+    condition: always()

@@ -1,0 +1,61 @@
+{
+    "name": "iFacto",
+    "description": "iFacto App Ruleset",
+    "rules": [
+        {
+            "id": "PTE0001",
+            "action": "Hidden",
+            "justification": "Object ID must be in free range. # Bug in LicenseFile"
+        },
+        {
+            "id": "PTE0002",
+            "action": "Hidden",
+            "justification": "Field ID must be in free range. # Bug in LicenseFile"
+        },
+        {
+            "id": "AL1025",
+            "action": "Error",
+            "justification": "Invalid XML file"
+        },
+        {
+            "id": "AA0100",
+            "action": "None",
+            "justification": "Do not have identifiers with quotes in the name. # It's default Microsoft naming - nothing to do about that."
+        },
+        {
+            "id": "AA0210",
+            "action": "None",
+            "justification": "Filter on field without key. # Bug in CodeCop"
+        },
+        {
+            "id": "AA0217",
+            "action": "None",
+            "justification": "Use a text constant or label for format string in StrSubstNo # Bug in codecop"
+        },
+        {
+            "id": "PTE0008",
+            "action": "Hidden",
+            "justification": "Fields must use ApplicationArea property. # Bug in AL 4.0 extension"
+        },
+        {
+            "id": "AA0214",
+            "action": "None",
+            "justification": "The record x should be modified # Bug in codecop"
+        },
+        {
+            "id": "AA0072",
+            "action": "None",
+            "justification": "Name of vars and params must be suffixed. # pointless"
+        },
+        {
+            "id": "AA0232",
+            "action": "None",
+            "justification": "Flowfield should be added to sift. # Bug in codecop"
+        },
+        {
+            "id": "AA0235",
+            "action": "None",
+            "justification": "Flowfield should be added to sift. # Bug in codecop"
+        }
+    ]
+}
