@@ -85,7 +85,7 @@ steps:
     usedocker: true
     nav_artifact_app_filter: '*.app'
     skip_verification: true   
-    
+
 - task: ALOpsDockerExec@1
   displayName: "ApplicationInsightsConnectionString"
   inputs:
@@ -127,6 +127,13 @@ steps:
     testResultsFormat: XUnit
     testResultsFiles: '**/TestResults.xml'
     testRunTitle: 'BC Test Results: $(Build.BuildId)'
+
+# - task: ALOpsBCPT@1
+#   displayName: "Run BC Performance Tests"
+#   inputs:
+#     usedocker: true
+#     export_results: true
+#     suite_code: POS
 
 - task: ALOpsDockerRemove@1
   displayName: 'ALOps - Remove Docker Container'
