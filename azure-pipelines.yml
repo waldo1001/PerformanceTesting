@@ -87,7 +87,7 @@ steps:
     skip_verification: true   
 
 - task: ALOpsAppCompiler@1
-  displayName: 'ALOps - Compile Extension: Test-App'
+  displayName: 'ALOps - Compile Extension: BCPT-App'
   inputs:
     usedocker: true
     nav_app_version: '?.?.*.0'
