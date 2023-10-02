@@ -1,10 +1,10 @@
 name: $(Build.BuildId)
 
-# trigger:
-#  branches:
-#    include:
-#      - master
-#      - main
+trigger:
+ branches:
+   include:
+     - master
+     - main
 
 # variables:
 # - group: 'Secrets'  # link to a variable group that has secret variables, like URL to license file, or sasToken for insider builds
