@@ -1,5 +1,5 @@
 {
-    "al.ruleSetPath": "./.codeAnalysis/app.ruleset.json",
+    "al.ruleSetPath": "./.codeAnalysis/app.ruleset.json"
     // "CRS.OnSaveAlFileAction": "Rename",
     // "CRS.FileNamePattern": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
     // "CRS.FileNamePatternExtensions": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
