@@ -1,3 +1,4 @@
 {
-    "al.ruleSetPath": "./.codeAnalysis/app.ruleset.json"
+    "al.ruleSetPath": "./.codeAnalysis/app.ruleset.json",
+    "al.enableCodeAnalysis": false
 }

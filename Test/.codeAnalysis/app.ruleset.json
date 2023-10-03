@@ -53,6 +53,16 @@
             "justification": "Flowfield should be added to sift. # Bug in codecop"
         },
         {
+            "id": "AL0432",
+            "action": "None",
+            "justification": "Obsoletions"
+        },
+        {
+            "id": "AL0719",
+            "action": "None",
+            "justification": "Argument 1: The argument should be a valid Field type"
+        },
+        {
             "id": "AA0235",
             "action": "None",
             "justification": "Flowfield should be added to sift. # Bug in codecop"
