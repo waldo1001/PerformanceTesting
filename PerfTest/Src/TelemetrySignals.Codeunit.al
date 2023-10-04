@@ -4,7 +4,7 @@ codeunit 70100 "Telemetry Signals"
 
     var
         TelemetryCustomDimensions: Dictionary of [Text, Text];
-        DurationMs: Durati / 1on;
+        DurationMs: Duration;
 
     #region TestSuiteSignals
     var
@@ -29,7 +29,7 @@ codeunit 70100 "Telemetry Signals"
 
         TelemetryCustomDimensions.Add('NoOfSqlStatements', format(SessionInformation.SqlStatementsExecuted - StartTestSuiteNoOfSqlStatements));
         TelemetryCustomDimensions.Add('NoOfReads', format(SessionInformation.SqlRowsRead - StartTestSuiteNoOfReads));
-        TelemetryCustomDimensions.Add('DurationMs', format(CurrentDateTime - StartTestSuiteSignal / 1));
+        TelemetryCustomDimensions.Add('DurationMs', format((CurrentDateTime - StartTestSuiteSignal) / 1));
 
         Session.LogMessage('WLD00001', AfterRunTestSuiteLbl, Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::All, TelemetryCustomDimensions);
     end;
@@ -58,7 +58,7 @@ codeunit 70100 "Telemetry Signals"
 
         TelemetryCustomDimensions.Add('NoOfSqlStatements', format(SessionInformation.SqlStatementsExecuted - StartTestCodeunitNoOfSqlStatements));
         TelemetryCustomDimensions.Add('NoOfReads', format(SessionInformation.SqlRowsRead - StartTestCodeunitNoOfReads));
-        TelemetryCustomDimensions.Add('DurationMs', format(CurrentDateTime - StartTestCodeunit / 1));
+        TelemetryCustomDimensions.Add('DurationMs', format((CurrentDateTime - StartTestCodeunit) / 1));
 
         Session.LogMessage('WLD00002', AfterRunTestCodeunitLbl, Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::All, TelemetryCustomDimensions);
     end;
@@ -87,7 +87,7 @@ codeunit 70100 "Telemetry Signals"
 
         TelemetryCustomDimensions.Add('NoOfSqlStatements', format(SessionInformation.SqlStatementsExecuted - StartTestCodeunitNoOfSqlStatements));
         TelemetryCustomDimensions.Add('NoOfReads', format(SessionInformation.SqlRowsRead - StartTestCodeunitNoOfReads));
-        TelemetryCustomDimensions.Add('DurationMs', format(CurrentDateTime - StartTestCodeunit / 1));
+        TelemetryCustomDimensions.Add('DurationMs', format((CurrentDateTime - StartTestCodeunit) / 1));
 
         Session.LogMessage('WLD00003', AfterRunTestMethodLbl, Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::All, TelemetryCustomDimensions);
     end;
