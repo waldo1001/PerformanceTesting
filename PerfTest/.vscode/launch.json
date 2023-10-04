@@ -9,7 +9,7 @@
             "server": "http://PerfTest",
             "serverInstance": "BC",
             "authentication": "UserPassword",
-            "startupObjectId": 22,
+            "startupObjectId": 130451,
             "startupObjectType": "Page",
             "breakOnError": "All",
             "launchBrowser": true,

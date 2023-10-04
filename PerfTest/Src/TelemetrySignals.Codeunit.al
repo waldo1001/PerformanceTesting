@@ -1,5 +1,7 @@
 codeunit 70100 "Telemetry Signals"
 {
+    SingleInstance = true;
+
     var
         TelemetryCustomDimensions: Dictionary of [Text, Text];
         DurationMs: Duration;
