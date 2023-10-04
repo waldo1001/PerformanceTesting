@@ -1,0 +1,13 @@
+traces
+| where tostring(customDimensions.eventId) contains "ALWLD000"
+// | where session_Id == '2b8eaf06-5b05-4760-b9d6-6f4662d7e1e0'
+| extend eventId = customDimensions.eventId
+, alTestSuiteName_ = tostring(customDimensions.alTestSuiteName)
+, alCodeunitId_ = tostring(customDimensions.alCodeunitId)
+, alStartTime_ = tostring(customDimensions.alStartTime)
+, alEndTime_ = tostring(customDimensions.alEndTime)
+, alResult_ = tostring(customDimensions.alResult)
+, alNoOfReads_ = tostring(customDimensions.alNoOfReads)
+, alNoOfSqlStatements_ = tostring(customDimensions.alNoOfSqlStatements)
+, alDurationMs_ = tostring(customDimensions.alDurationMs)
+| order by timestamp desc 
