@@ -121,7 +121,7 @@ codeunit 70100 "Telemetry Signals"
             TelemetryCustomDimensions.Add('MethodName', TestMethodLine.Function);
         TelemetryCustomDimensions.Add('StartTime', format(TestMethodLine."Start Time"));
         TelemetryCustomDimensions.Add('EndTime', format(TestMethodLine."Finish Time"));
-        TelemetryCustomDimensions.Add('TotalNoOfSQLStatements', format(TotalNoOfSQL));
+        TelemetryCustomDimensions.Add('NoOfSQLStatements', format(TotalNoOfSQL));
         TelemetryCustomDimensions.Add('NoOfReads', format(TotalNoOfRds));
         TelemetryCustomDimensions.Add('DurationMs', format(TotalDuration / 1));
 
