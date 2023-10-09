@@ -9,7 +9,7 @@ trigger:
 variables:
   # - group: 'Secrets'  # link to a variable group that has secret variables, like URL to license file, or sasToken for insider builds
   - name: bcpt_appinsights
-    value: "InstrumentationKey=f8c1258a-940b-4deb-b680-d79c99e15493;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/"
+    value: "InstrumentationKey=444af6dc-a16c-4b09-8c39-3beeec98a6b7;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/"
 
 pool: WaldoHetzner
 
