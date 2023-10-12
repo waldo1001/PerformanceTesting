@@ -135,11 +135,17 @@ steps:
         Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
 
   - task: ALOpsDockerExec@1
+    displayName: Install MSAL.PS
+    inputs:
+      inline_script: |
+        $output = install-module MSAL.PS -force
+        
+        Write-Host $output
+
+  - task: ALOpsDockerExec@1
     displayName: Run BCPT
     inputs:
       inline_script: |
-        install-module MSAL.PS -force
-
         $UserName = $env:ALOPS_DOCKER_ADMINUSER
         $Password = ConvertTo-SecureString $env:ALOPS_DOCKER_ADMINPASSWORD -AsPlainText -Force
         $Credential = New-Object System.Management.Automation.PSCredential ($UserName, $Password)
@@ -189,7 +195,7 @@ steps:
   #     export_results: true
   #     suite_code: POS
 
-  - task: ALOpsDockerRemove@1
-    displayName: "ALOps - Remove Docker Container"
-    enabled: true
-    condition: always()
+  # - task: ALOpsDockerRemove@1
+  #   displayName: "ALOps - Remove Docker Container"
+  #   enabled: true
+  #   condition: always()
