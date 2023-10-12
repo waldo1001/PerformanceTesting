@@ -111,6 +111,13 @@ steps:
       skip_verification: true
 
   - task: ALOpsDockerExec@1
+    displayName: Install MSAL.PS
+    inputs:
+      inline_script: |
+        install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -Force
+        install-module MSAL.PS -force -confirm:$true
+        
+  - task: ALOpsDockerExec@1
     displayName: "ApplicationInsightsConnectionString"
     inputs:
       inline_script: |
@@ -133,13 +140,6 @@ steps:
         Set-NAVServerInstance -ServerInstance "BC" -Restart
 
         Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
-
-  - task: ALOpsDockerExec@1
-    displayName: Install MSAL.PS
-    inputs:
-      inline_script: |
-        install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -Force
-        install-module MSAL.PS -force -confirm:$true
         
   - task: ALOpsDockerExec@1
     displayName: Run BCPT
