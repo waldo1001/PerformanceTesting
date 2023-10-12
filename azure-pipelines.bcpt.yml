@@ -147,26 +147,16 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
+        Invoke-ScriptInBcContainer -containerName $env:ALOPS_DOCKER_HOSTNAME -scriptblock {
           $SuiteCode = 'BCPT'
-          $UserName = $ALOPS_DOCKER_ADMINUSER
-          $Password = $ALOPS_DOCKER_ADMINPASSWORD
-          $ServerInstance = $ALOPS_DOCKER_NAVSERVERINSTANCE
-          $ServiceUrl = $ALOPS_DOCKER_WEBCLIENT      
+          $UserName = $env:ALOPS_DOCKER_ADMINUSER
+          $Password = $env:ALOPS_DOCKER_ADMINPASSWORD
+          $ServerInstance = $env:ALOPS_DOCKER_NAVSERVERINSTANCE
+          $ServiceUrl = $env:ALOPS_DOCKER_WEBCLIENT      
 
-  #         Write-Host "$SuiteCode - $UserName - $Password - $ServerInstance - $ServiceUrl"
-  # - task: PowerShell@2
-  #   inputs:
-  #     targetType: 'inline'
-  #     script: |
-  #       Invoke-ScriptInBcContainer -containerName $env:ALOPS_DOCKER_HOSTNAME -scriptblock {
-  #         $SuiteCode = 'BCPT'
-  #         $UserName = $env:ALOPS_DOCKER_ADMINUSER
-  #         $Password = $env:ALOPS_DOCKER_ADMINPASSWORD
-  #         $ServerInstance = $env:ALOPS_DOCKER_NAVSERVERINSTANCE
-  #         $ServiceUrl = $env:ALOPS_DOCKER_WEBCLIENT      
-
-  #         Write-Host "$SuiteCode - $UserName - $Password - $ServerInstance - $ServiceUrl"
-  #       }
+          Write-Host "$SuiteCode - $UserName - $Password - $ServerInstance - $ServiceUrl"
+        }
+        
   - task: ALOpsDockerExec@1
     displayName: Run BCPT
     inputs:      
