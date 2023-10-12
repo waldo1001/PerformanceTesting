@@ -139,6 +139,7 @@ steps:
         Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
 
   - task: ALOpsDockerExec@1
+    displayName: Run BCPT
     inputs:
       inline_script: |
         install-module MSAL.PS -force
