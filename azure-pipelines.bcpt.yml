@@ -33,155 +33,173 @@ steps:
       search_string: "Ready for connections!"
 
   #Install Test-apps - included in artifact, so easy to reference the names of the apps - ALOps will find them
-  # - task: ALOpsAppPublish@1
-  #   displayName: "ALOps - Install AL TestTool" # install necessary dependent apps for testability
-  #   inputs:
-  #     usedocker: true
-  #     installaltesttool: true
-  #     skip_verification: true
-  #     install_al_app_names: |
-  #       Tests-TestLibraries
-  #       System Application Test
-  #       System Application Test Library
-  #       Any
-  #       Library Assert
-  #       Test Runner
-  #       Permissions Mock
-  #       Library Variable Storage
-  #       Performance Toolkit
+  - task: ALOpsAppPublish@1
+    displayName: "ALOps - Install AL TestTool" # install necessary dependent apps for testability
+    inputs:
+      usedocker: true
+      installaltesttool: true
+      skip_verification: true
+      install_al_app_names: |
+        Tests-TestLibraries
+        System Application Test
+        System Application Test Library
+        Any
+        Library Assert
+        Test Runner
+        Permissions Mock
+        Library Variable Storage
+        Performance Toolkit
 
-  # - task: ALOpsAppCompiler@1
-  #   displayName: "ALOps - Compile Extension: App"
-  #   inputs:
-  #     usedocker: true
-  #     nav_app_version: "?.?.*.0" # ? = Take digit from the app.json, * = buildnumber
-  #     targetproject: "app/app.json" # The App
-  #     app_file_suffix: "_APP" # A trick to uniquely identify the APP (from the TEST-app)
+  - task: ALOpsAppCompiler@1
+    displayName: "ALOps - Compile Extension: App"
+    inputs:
+      usedocker: true
+      nav_app_version: "?.?.*.0" # ? = Take digit from the app.json, * = buildnumber
+      targetproject: "app/app.json" # The App
+      app_file_suffix: "_APP" # A trick to uniquely identify the APP (from the TEST-app)
 
-  # - task: ALOpsAppPublish@1
-  #   displayName: "ALOps - Publish Extension"
-  #   inputs:
-  #     usedocker: true
-  #     nav_artifact_app_filter: "*.app"
-  #     skip_verification: true
+  - task: ALOpsAppPublish@1
+    displayName: "ALOps - Publish Extension"
+    inputs:
+      usedocker: true
+      nav_artifact_app_filter: "*.app"
+      skip_verification: true
 
-  # - task: ALOpsAppCompiler@1
-  #   displayName: "ALOps - Compile Extension: Test-App"
-  #   inputs:
-  #     usedocker: true
-  #     nav_app_version: "?.?.*.0"
-  #     targetproject: "test/app.json"
-  #     app_file_suffix: "_TEST"
+  - task: ALOpsAppCompiler@1
+    displayName: "ALOps - Compile Extension: Test-App"
+    inputs:
+      usedocker: true
+      nav_app_version: "?.?.*.0"
+      targetproject: "test/app.json"
+      app_file_suffix: "_TEST"
 
-  # - task: ALOpsAppPublish@1
-  #   displayName: "ALOps - Publish Extension"
-  #   inputs:
-  #     usedocker: true
-  #     nav_artifact_app_filter: "*.app"
-  #     skip_verification: true
+  - task: ALOpsAppPublish@1
+    displayName: "ALOps - Publish Extension"
+    inputs:
+      usedocker: true
+      nav_artifact_app_filter: "*.app"
+      skip_verification: true
 
-  # - task: ALOpsAppCompiler@1
-  #   displayName: "ALOps - Compile Extension: BCPT-App"
-  #   inputs:
-  #     usedocker: true
-  #     nav_app_version: "?.?.*.0"
-  #     targetproject: "BCPT/app.json" # The Test-App
-  #     app_file_suffix: "_TEST" # A trick to uniquely identify the Test-App (from the App)
+  - task: ALOpsAppCompiler@1
+    displayName: "ALOps - Compile Extension: BCPT-App"
+    inputs:
+      usedocker: true
+      nav_app_version: "?.?.*.0"
+      targetproject: "BCPT/app.json" # The Test-App
+      app_file_suffix: "_TEST" # A trick to uniquely identify the Test-App (from the App)
 
-  # - task: ALOpsAppPublish@1
-  #   displayName: "ALOps - Publish Extension"
-  #   inputs:
-  #     usedocker: true
-  #     nav_artifact_app_filter: "*.app"
-  #     skip_verification: true
+  - task: ALOpsAppPublish@1
+    displayName: "ALOps - Publish Extension"
+    inputs:
+      usedocker: true
+      nav_artifact_app_filter: "*.app"
+      skip_verification: true
 
-  # - task: ALOpsAppCompiler@1
-  #   displayName: "ALOps - Compile Extension: PerfTest-App"
-  #   inputs:
-  #     usedocker: true
-  #     nav_app_version: "?.?.*.0"
-  #     targetproject: "PerfTest/app.json" # The Test-App
-  #     app_file_suffix: "_TEST" # A trick to uniquely identify the Test-App (from the App)
+  - task: ALOpsAppCompiler@1
+    displayName: "ALOps - Compile Extension: PerfTest-App"
+    inputs:
+      usedocker: true
+      nav_app_version: "?.?.*.0"
+      targetproject: "PerfTest/app.json" # The Test-App
+      app_file_suffix: "_TEST" # A trick to uniquely identify the Test-App (from the App)
 
-  # - task: ALOpsAppPublish@1
-  #   displayName: "ALOps - Publish Extension"
-  #   inputs:
-  #     usedocker: true
-  #     nav_artifact_app_filter: "*.app"
-  #     skip_verification: true
+  - task: ALOpsAppPublish@1
+    displayName: "ALOps - Publish Extension"
+    inputs:
+      usedocker: true
+      nav_artifact_app_filter: "*.app"
+      skip_verification: true
 
-  # - task: ALOpsDockerExec@1
-  #   displayName: "ApplicationInsightsConnectionString"
-  #   inputs:
-  #     inline_script: |
-  #       Set-NAVServerConfiguration -ServerInstance "BC" `
-  #                                  -KeyName  EnableLockTimeoutMonitoring  `
-  #                                  -KeyValue $true
+  - task: ALOpsDockerExec@1
+    displayName: "ApplicationInsightsConnectionString"
+    inputs:
+      inline_script: |
+        Set-NAVServerConfiguration -ServerInstance "BC" `
+                                   -KeyName  EnableLockTimeoutMonitoring  `
+                                   -KeyValue $true
 
-  #       Set-NAVServerConfiguration -ServerInstance "BC" `
-  #                                  -KeyName  EnableDeadlockMonitoring  `
-  #                                  -KeyValue $true
+        Set-NAVServerConfiguration -ServerInstance "BC" `
+                                   -KeyName  EnableDeadlockMonitoring  `
+                                   -KeyValue $true
 
-  #       Set-NAVServerConfiguration -ServerInstance "BC" `
-  #                                  -KeyName  SqlLongRunningThresholdForApplicationInsights  `
-  #                                  -KeyValue 500
+        Set-NAVServerConfiguration -ServerInstance "BC" `
+                                   -KeyName  SqlLongRunningThresholdForApplicationInsights  `
+                                   -KeyValue 500
 
-  #       Set-NAVServerConfiguration -ServerInstance "BC" `
-  #                                  -KeyName  ALLongRunningFunctionTracingThresholdForApplicationInsights  `
-  #                                  -KeyValue 10000
+        Set-NAVServerConfiguration -ServerInstance "BC" `
+                                   -KeyName  ALLongRunningFunctionTracingThresholdForApplicationInsights  `
+                                   -KeyValue 10000
 
-  #       Set-NAVServerInstance -ServerInstance "BC" -Restart
+        Set-NAVServerInstance -ServerInstance "BC" -Restart
 
-  #       Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
+        Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
 
-  # - task: ALOpsDockerExec@1
-  #   displayName: Install MSAL.PS
-  #   inputs:
-  #     inline_script: |
-  #       install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -Force
-  #       install-module MSAL.PS -force -confirm:$true
+  - task: ALOpsDockerExec@1
+    displayName: Install MSAL.PS
+    inputs:
+      inline_script: |
+        install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -Force
+        install-module MSAL.PS -force -confirm:$true
 
   - task: ALOpsInfo@1
 
   - task: PowerShell@2
+    displayName: Run BCPT
     inputs:
       targetType: 'inline'
       script: |
+        $SuiteCode = "BCPT"
+      
         Invoke-ScriptInBcContainer -containerName $env:ALOPS_DOCKER_HOSTNAME -scriptblock {
-          $SuiteCode = 'BCPT'
-          $UserName = $env:ALOPS_DOCKER_ADMINUSER
-          $Password = $env:ALOPS_DOCKER_ADMINPASSWORD
-          $ServerInstance = $env:ALOPS_DOCKER_NAVSERVERINSTANCE
-          $ServiceUrl = $env:ALOPS_DOCKER_WEBCLIENT      
+          param(
+              $SuiteCode,
+              $UserName,
+              $PassWord,
+              $ServiceUrl
+          )
 
-          Write-Host "$SuiteCode - $UserName - $Password - $ServerInstance - $ServiceUrl"
-        }
+          Write-Host "Run BCPT with parameters($SuiteCode - $UserName - $Password - $ServiceUrl)"
+
+          $Password = ConvertTo-SecureString $Password -AsPlainText -Force
+          $Credential = New-Object System.Management.Automation.PSCredential ($UserName, $Password)
+
+          Set-Location C:\Applications\testframework\TestRunner
+
+          ./RunBCPTTests.ps1 `
+              -Environment OnPrem `
+              -AuthorizationType NavUserPassword `
+              -Credential $Credential `
+              -TestRunnerPage 149002 `
+              -SuiteCode $SuiteCode `
+              -ServiceUrl $ServiceUrl `
+              -BCPTTestRunnerInternalFolderPath ".\Internal"
+        } -argumentList $SuiteCode, $env:ALOPS_DOCKER_ADMINUSER, $env:ALOPS_DOCKER_ADMINPASSWORD, $env:ALOPS_DOCKER_WEBCLIENT 
         
-  - task: ALOpsDockerExec@1
-    displayName: Run BCPT
-    inputs:      
-      inline_script: |
-        $SuiteCode = 'BCPT'
-        $UserName = $env:ALOPS_DOCKER_ADMINUSER
-        $Password = $env:ALOPS_DOCKER_ADMINPASSWORD
-        $ServerInstance = $env:ALOPS_DOCKER_NAVSERVERINSTANCE
-        $ServiceUrl = $env:ALOPS_DOCKER_WEBCLIENT      
+  # - task: ALOpsDockerExec@1
+  #   displayName: Run BCPT
+  #   inputs:      
+  #     inline_script: |
+  #       $SuiteCode = 'BCPT'
+  #       $UserName = $env:ALOPS_DOCKER_ADMINUSER
+  #       $Password = $env:ALOPS_DOCKER_ADMINPASSWORD
+  #       $ServerInstance = $env:ALOPS_DOCKER_NAVSERVERINSTANCE
+  #       $ServiceUrl = $env:ALOPS_DOCKER_WEBCLIENT      
 
-        Write-Host "$SuiteCode - $UserName - $Password - $ServerInstance - $ServiceUrl"
+  #       Write-Host "$SuiteCode - $UserName - $Password - $ServerInstance - $ServiceUrl"
 
-        # $Password = ConvertTo-SecureString $Password -AsPlainText -Force
-        # $Credential = New-Object System.Management.Automation.PSCredential ($UserName, $Password)
+  #       # $Password = ConvertTo-SecureString $Password -AsPlainText -Force
+  #       # $Credential = New-Object System.Management.Automation.PSCredential ($UserName, $Password)
 
-        # Set-Location C:\Applications\testframework\TestRunner
+  #       # Set-Location C:\Applications\testframework\TestRunner
 
-        # ./RunBCPTTests.ps1 `
-        #     -Environment OnPrem `
-        #     -AuthorizationType NavUserPassword `
-        #     -Credential $Credential `
-        #     -TestRunnerPage 149002 `
-        #     -SuiteCode $SuiteCode `
-        #     -ServiceUrl $ServiceUrl `
-        #     -BCPTTestRunnerInternalFolderPath ".\Internal"
+  #       # ./RunBCPTTests.ps1 `
+  #       #     -Environment OnPrem `
+  #       #     -AuthorizationType NavUserPassword `
+  #       #     -Credential $Credential `
+  #       #     -TestRunnerPage 149002 `
+  #       #     -SuiteCode $SuiteCode `
+  #       #     -ServiceUrl $ServiceUrl `
+  #       #     -BCPTTestRunnerInternalFolderPath ".\Internal"
 
   # - task: ALOpsAppTest@1
   #   displayName: "ALOps - Run TestSuite"
