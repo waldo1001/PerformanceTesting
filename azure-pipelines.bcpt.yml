@@ -1,10 +1,6 @@
 name: $(Build.BuildId)
 
-trigger:
-  branches:
-    include:
-      - master
-      - main
+trigger: none
 
 variables:
   # - group: 'Secrets'  # link to a variable group that has secret variables, like URL to license file, or sasToken for insider builds
@@ -138,9 +134,10 @@ steps:
 
         Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
 
-  - task: ALOpsDockerExec@3
+  - task: ALOpsDockerExec@1
+    displayName: Run BCPT
     inputs:
-      inlinescript: |
+      inline_script: |
         install-module MSAL.PS -force
 
         $UserName = $env:ALOPS_DOCKER_ADMINUSER
