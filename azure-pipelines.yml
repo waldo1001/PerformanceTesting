@@ -1,5 +1,6 @@
 name: $(Build.BuildId)
 
+trigger: none
 # trigger:
 #   branches:
 #     include:
