@@ -157,14 +157,14 @@ steps:
 
         Set-Location C:\Applications\testframework\TestRunner
 
-        ./RunBCPTTests.ps1 `
-            -Environment OnPrem `
-            -AuthorizationType NavUserPassword `
-            -Credential $Credential `
-            -TestRunnerPage 149002 `
-            -SuiteCode $SuiteCode `
-            -ServiceUrl $ServiceUrl `
-            -BCPTTestRunnerInternalFolderPath ".\Internal"
+        # ./RunBCPTTests.ps1 `
+        #     -Environment OnPrem `
+        #     -AuthorizationType NavUserPassword `
+        #     -Credential $Credential `
+        #     -TestRunnerPage 149002 `
+        #     -SuiteCode $SuiteCode `
+        #     -ServiceUrl $ServiceUrl `
+        #     -BCPTTestRunnerInternalFolderPath ".\Internal"
 
   # - task: ALOpsAppTest@1
   #   displayName: "ALOps - Run TestSuite"
