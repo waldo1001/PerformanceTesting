@@ -138,9 +138,9 @@ steps:
 
         Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
 
-  - task: ALOpsDockerExec@3
+  - task: ALOpsDockerExec@1
     inputs:
-      inlinescript: |
+      inline_script: |
         install-module MSAL.PS -force
 
         $UserName = $env:ALOPS_DOCKER_ADMINUSER
