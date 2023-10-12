@@ -111,13 +111,6 @@ steps:
       skip_verification: true
 
   - task: ALOpsDockerExec@1
-    displayName: Install MSAL.PS
-    inputs:
-      inline_script: |
-        install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -Force
-        install-module MSAL.PS -force -confirm:$true
-        
-  - task: ALOpsDockerExec@1
     displayName: "ApplicationInsightsConnectionString"
     inputs:
       inline_script: |
@@ -140,38 +133,38 @@ steps:
         Set-NAVServerInstance -ServerInstance "BC" -Restart
 
         Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
-  
+
+  - task: ALOpsDockerExec@1
+    displayName: Install MSAL.PS
+    inputs:
+      inline_script: |
+        install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -Force
+        install-module MSAL.PS -force -confirm:$true
+
   - task: ALOpsInfo@1
 
   - task: ALOpsDockerExec@1
     displayName: Run BCPT
     inputs:
       inline_script: |
+        $SuiteCode = 'BCPT'
         $UserName = $env:ALOPS_DOCKER_ADMINUSER
-        $Password = ConvertTo-SecureString $env:ALOPS_DOCKER_ADMINPASSWORD -AsPlainText -Force
+        $Password = $env:ALOPS_DOCKER_ADMINPASSWORD
+        $ServerInstance = $env:ALOPS_DOCKER_NAVSERVERINSTANCE
+        $ServiceUrl = $env:ALOPS_DOCKER_WEBCLIENT                                  
+        $Password = ConvertTo-SecureString $Password -AsPlainText -Force
         $Credential = New-Object System.Management.Automation.PSCredential ($UserName, $Password)
-        $serviceUrl = "http://localhost:80/$serverInstance/cs/?tenant=$tenant&company"
-        $Results = Invoke-RestMethod -Method Get -Uri $ServiceUrl
-        Write-Host $Results
 
-        
         Set-Location C:\Applications\testframework\TestRunner
-        if ($auth -eq "UserPassword") { $auth = "NavUserPassword" }
-        $params = @{ "AuthorizationType" = $auth }
-        if ($auth -ne "Windows") { $params += @{ "Credential" = $Credential } }
-        $serviceUrl = "http://localhost:80/$serverInstance/cs/?tenant=$tenant&company=$([Uri]::EscapeDataString($companyName))"
-        $testpage = 149002
-        Write-Host "Using testpage $testpage"
-        Write-Host "Using Suitecode $suitecode"
-        Write-Host "Service Url $serviceUrl"
-        Write-Host "Running Performance Tests$($durationString)..."      
 
-        .\RunBCPTTests.ps1 @params `
-            -BCPTTestRunnerInternalFolderPath Internal `
-            -SuiteCode 'BCPT' `
-            -ServiceUrl $serviceUrl `
+        ./RunBCPTTests.ps1 `
             -Environment OnPrem `
-            -TestRunnerPage $testpage | Out-Null
+            -AuthorizationType NavUserPassword `
+            -Credential $Credential `
+            -TestRunnerPage 149002 `
+            -SuiteCode $SuiteCode `
+            -ServiceUrl $ServiceUrl `
+            -BCPTTestRunnerInternalFolderPath ".\Internal"
 
   # - task: ALOpsAppTest@1
   #   displayName: "ALOps - Run TestSuite"
@@ -198,7 +191,7 @@ steps:
   #     export_results: true
   #     suite_code: POS
 
-  # - task: ALOpsDockerRemove@1
-  #   displayName: "ALOps - Remove Docker Container"
-  #   enabled: true
-  #   condition: always()
+  - task: ALOpsDockerRemove@1
+    displayName: "ALOps - Remove Docker Container"
+    enabled: true
+    condition: always()
