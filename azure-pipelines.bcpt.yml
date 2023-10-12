@@ -162,7 +162,7 @@ steps:
 
         .\RunBCPTTests.ps1 @params `
             -BCPTTestRunnerInternalFolderPath Internal `
-            -SuiteCode 'TEST' `
+            -SuiteCode 'BCPT' `
             -ServiceUrl $serviceUrl `
             -Environment OnPrem `
             -TestRunnerPage $testpage | Out-Null
