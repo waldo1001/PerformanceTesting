@@ -140,7 +140,10 @@ steps:
         Set-NAVServerInstance -ServerInstance "BC" -Restart
 
         Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
-        
+  
+  - task: ALOpsInfo@1
+    inputs:
+
   - task: ALOpsDockerExec@1
     displayName: Run BCPT
     inputs:
@@ -151,6 +154,8 @@ steps:
         $serviceUrl = "http://localhost:80/$serverInstance/cs/?tenant=$tenant&company"
         $Results = Invoke-RestMethod -Method Get -Uri $ServiceUrl
         Write-Host $Results
+
+        
         Set-Location C:\Applications\testframework\TestRunner
         if ($auth -eq "UserPassword") { $auth = "NavUserPassword" }
         $params = @{ "AuthorizationType" = $auth }
