@@ -142,7 +142,6 @@ steps:
         Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
   
   - task: ALOpsInfo@1
-    inputs:
 
   - task: ALOpsDockerExec@1
     displayName: Run BCPT
