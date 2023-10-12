@@ -1,4 +1,4 @@
-codeunit 69100 "BCPT Install"
+codeunit 69100 "BCPT Install WLD"
 {
     Subtype = Install;
 
