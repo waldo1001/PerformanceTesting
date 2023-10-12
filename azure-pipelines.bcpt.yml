@@ -141,11 +141,23 @@ steps:
   #       install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -Force
   #       install-module MSAL.PS -force -confirm:$true
 
-  # - task: ALOpsInfo@1
+  - task: ALOpsInfo@1
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        $SuiteCode = 'BCPT'
+        $UserName = $env:ALOPS_DOCKER_ADMINUSER
+        $Password = $env:ALOPS_DOCKER_ADMINPASSWORD
+        $ServerInstance = $env:ALOPS_DOCKER_NAVSERVERINSTANCE
+        $ServiceUrl = $env:ALOPS_DOCKER_WEBCLIENT      
+
+        Write-Host "$SuiteCode - $UserName - $Password - $ServerInstance - $ServiceUrl"
 
   - task: ALOpsDockerExec@1
     displayName: Run BCPT
-    inputs:
+    inputs:      
       inline_script: |
         $SuiteCode = 'BCPT'
         $UserName = $env:ALOPS_DOCKER_ADMINUSER
