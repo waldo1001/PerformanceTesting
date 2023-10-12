@@ -198,7 +198,7 @@ steps:
   #     export_results: true
   #     suite_code: POS
 
-  - task: ALOpsDockerRemove@1
-    displayName: "ALOps - Remove Docker Container"
-    enabled: true
-    condition: always()
+  # - task: ALOpsDockerRemove@1
+  #   displayName: "ALOps - Remove Docker Container"
+  #   enabled: true
+  #   condition: always()
