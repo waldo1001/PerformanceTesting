@@ -138,7 +138,7 @@ steps:
     displayName: Install MSAL.PS
     inputs:
       inline_script: |
-        $output = install-module MSAL.PS -force
+        $output = install-module MSAL.PS -force -confirm:$true
         
         Write-Host $output
 
