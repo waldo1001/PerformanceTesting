@@ -4,7 +4,7 @@ codeunit 69102 "BCPT Upgrade WLD"
 
     trigger OnUpgradePerCompany()
     var
-        BCPTInstall: Codeunit "BCPT Install";
+        BCPTInstall: Codeunit "BCPT Install WLD";
     begin
         BCPTInstall.SetupSuites();
     end;
