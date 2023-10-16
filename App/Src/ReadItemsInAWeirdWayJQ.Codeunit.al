@@ -1,4 +1,4 @@
-codeunit 68101 ReadItemsInAWeirdWay
+codeunit 68101 "ReadItemsInAWeirdWay JQ"
 {
     TableNo = "Job Queue Entry";
 

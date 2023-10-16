@@ -96,11 +96,11 @@ steps:
       skip_verification: true
 
   - task: ALOpsAppCompiler@1
-    displayName: "ALOps - Compile Extension: PerfTest-App"
+    displayName: "ALOps - Compile Extension: TelemetryOnTests-App"
     inputs:
       usedocker: true
       nav_app_version: "?.?.*.0"
-      targetproject: "PerfTest/app.json" # The Test-App
+      targetproject: "TelemetryOnTests/app.json" # The Test-App
       app_file_suffix: "_TEST" # A trick to uniquely identify the Test-App (from the App)
 
   - task: ALOpsAppPublish@1
@@ -146,10 +146,10 @@ steps:
   - task: PowerShell@2
     displayName: Run BCPT
     inputs:
-      targetType: 'inline'
+      targetType: "inline"
       script: |
         $SuiteCode = "BCPT"
-      
+
         Invoke-ScriptInBcContainer -containerName $env:ALOPS_DOCKER_HOSTNAME -scriptblock {
           param(
               $SuiteCode,
@@ -173,17 +173,17 @@ steps:
               -SuiteCode $SuiteCode `
               -ServiceUrl $ServiceUrl `
               -BCPTTestRunnerInternalFolderPath ".\Internal"
-        } -argumentList $SuiteCode, $env:ALOPS_DOCKER_ADMINUSER, $env:ALOPS_DOCKER_ADMINPASSWORD, $env:ALOPS_DOCKER_WEBCLIENT 
-        
+        } -argumentList $SuiteCode, $env:ALOPS_DOCKER_ADMINUSER, $env:ALOPS_DOCKER_ADMINPASSWORD, $env:ALOPS_DOCKER_WEBCLIENT
+
   # - task: ALOpsDockerExec@1
   #   displayName: Run BCPT
-  #   inputs:      
+  #   inputs:
   #     inline_script: |
   #       $SuiteCode = 'BCPT'
   #       $UserName = $env:ALOPS_DOCKER_ADMINUSER
   #       $Password = $env:ALOPS_DOCKER_ADMINPASSWORD
   #       $ServerInstance = $env:ALOPS_DOCKER_NAVSERVERINSTANCE
-  #       $ServiceUrl = $env:ALOPS_DOCKER_WEBCLIENT      
+  #       $ServiceUrl = $env:ALOPS_DOCKER_WEBCLIENT
 
   #       Write-Host "$SuiteCode - $UserName - $Password - $ServerInstance - $ServiceUrl"
 
