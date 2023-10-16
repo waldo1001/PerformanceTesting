@@ -18,12 +18,6 @@ codeunit 68103 "Install Demo Data WPT"
     var
         JustSomeTableWPT: Record "Just Some Table WPT";
         JobQueueEntry1: Record "Job Queue Entry";
-        JobQueueEntry2: Record "Job Queue Entry";
-        JobQueueEntry3: Record "Job Queue Entry";
-        JobQueueEntry4: Record "Job Queue Entry";
-        JobQueueEntry5: Record "Job Queue Entry";
-        JobQueueEntry6: Record "Job Queue Entry";
-        JobQueueEntry7: Record "Job Queue Entry";
         RecId: Recordid;
         ScheduleAt: DateTime;
     begin
@@ -33,7 +27,6 @@ codeunit 68103 "Install Demo Data WPT"
 
         if JustSomeTableWPT.IsEmpty then
             JobQueueEntry1.ScheduleJobQueueEntryForLater(codeunit::"Install - Big Table WPT", ScheduleAt, '', '');
-        // JobQueueEntry1.ScheduleJobQueueEntry(codeunit::"Install - Big Table WPT", RecId);
     end;
 
     local procedure SetupNumberSequences()
