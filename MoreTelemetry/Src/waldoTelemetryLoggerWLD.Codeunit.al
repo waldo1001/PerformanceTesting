@@ -10,7 +10,7 @@ codeunit 70501 "waldo Telemetry Logger WLD" implements "Telemetry Logger"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Telemetry Loggers", 'OnRegisterTelemetryLogger', '', true, true)]
     local procedure OnRegisterTelemetryLogger(var Sender: Codeunit "Telemetry Loggers")
     var
-        TelemetryLogger: Codeunit "Daily Telemetry Logger WLD";
+        TelemetryLogger: Codeunit "waldo Telemetry Logger WLD";
     begin
         Sender.Register(TelemetryLogger);
     end;

@@ -10,10 +10,7 @@
 			"path": "BCPT"
 		},
 		{
-			"path": "TelemetryOnTests"
-		},
-		{
-			"path": "DailyTelemetry"
+			"path": "MoreTelemetry"
 		}
 	],
 	"settings": {}

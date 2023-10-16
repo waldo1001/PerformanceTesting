@@ -1,4 +1,4 @@
-codeunit 70100 "Telemetry On Tests"
+codeunit 70502 "Telemetry On Tests"
 {
     SingleInstance = true;
 
