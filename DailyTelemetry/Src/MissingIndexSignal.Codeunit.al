@@ -1,4 +1,4 @@
-codeunit 50100 "Missing Index Signal"
+codeunit 70500 "Missing Index Signal"
 {
 
     local procedure EmitMissingIndexSignal()
@@ -37,4 +37,5 @@ codeunit 50100 "Missing Index Signal"
         CustomDimensions.Add('IncludeColumns', DatabaseMissingIndexes."Index Include Columns");
         CustomDimensions.Add('Statement', DatabaseMissingIndexes."Statement");
     end;
+
 }
