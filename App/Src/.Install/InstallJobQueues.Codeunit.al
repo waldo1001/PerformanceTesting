@@ -7,7 +7,7 @@ codeunit 68100 InstallJobQueues
         CreateJobQueues();
     end;
 
-    local procedure CreateJobQueues()
+    procedure CreateJobQueues()
     var
         JobQueueEntry: Record "Job Queue Entry";
     begin
