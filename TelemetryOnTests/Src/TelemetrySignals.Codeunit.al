@@ -130,6 +130,7 @@ codeunit 70100 "Telemetry Signals"
 
     local procedure SendTelemetry()
     var
+        Telemetry: Codeunit Telemetry;
         Signal: Dictionary of [Text, Text];
         eventId, message : Text;
     begin
@@ -140,7 +141,7 @@ codeunit 70100 "Telemetry Signals"
             message := Signal.Get('message');
             Signal.Remove('message');
 
-            Session.LogMessage(eventId, message, Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::All, Signal);
+            Telemetry.LogMessage(eventId, message, Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::All, Signal);
         end;
     end;
 
