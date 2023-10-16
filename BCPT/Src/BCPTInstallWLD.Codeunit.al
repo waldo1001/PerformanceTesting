@@ -23,6 +23,7 @@ codeunit 69100 "BCPT Install WLD"
 
         BCPTTestSuite.CreateTestSuiteHeader('BCPT', 'Actions with a focus on POS', 1, 100, 1000, 20, 'Sales Suite');
         BCPTTestSuite.AddLineToTestSuiteHeader('BCPT', codeunit::"BCPT Createsalesorder", 10, 'Create Sales Orders', 100, 1000, 5, false, '');
+        BCPTTestSuite.AddLineToTestSuiteHeader('BCPT', codeunit::"BCPT Post Sales Order", 10, 'Create Sales Invoices', 100, 1000, 5, false, '');
     end;
 
 }
