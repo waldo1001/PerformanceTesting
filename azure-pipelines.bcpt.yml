@@ -96,11 +96,11 @@ steps:
       skip_verification: true
 
   - task: ALOpsAppCompiler@1
-    displayName: "ALOps - Compile Extension: TelemetryOnTests-App"
+    displayName: "ALOps - Compile Extension: MoreTelemetry-App"
     inputs:
       usedocker: true
       nav_app_version: "?.?.*.0"
-      targetproject: "TelemetryOnTests/app.json" # The Test-App
+      targetproject: "MoreTelemetry/app.json" # The Test-App
       app_file_suffix: "_TEST" # A trick to uniquely identify the Test-App (from the App)
 
   - task: ALOpsAppPublish@1

@@ -1,4 +1,4 @@
-codeunit 70101 "Tests Telemetry Logger WLD" implements "Telemetry Logger"
+codeunit 70501 "waldo Telemetry Logger WLD" implements "Telemetry Logger"
 {
     Access = Internal;
 
@@ -10,7 +10,7 @@ codeunit 70101 "Tests Telemetry Logger WLD" implements "Telemetry Logger"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Telemetry Loggers", 'OnRegisterTelemetryLogger', '', true, true)]
     local procedure OnRegisterTelemetryLogger(var Sender: Codeunit "Telemetry Loggers")
     var
-        TelemetryLogger: Codeunit "Tests Telemetry Logger WLD";
+        TelemetryLogger: Codeunit "Daily Telemetry Logger WLD";
     begin
         Sender.Register(TelemetryLogger);
     end;

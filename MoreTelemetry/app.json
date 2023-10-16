@@ -1,30 +1,23 @@
 {
-  "id": "fc2a471b-a1ab-4cab-a674-efa1e94f0ad8",
-  "name": "Telemetry On Tests",
+  "id": "cfc2359c-8c6a-4170-9316-5ba4555d7cdb",
+  "name": "MoreTelemetry",
   "publisher": "waldo",
   "version": "1.0.0.0",
-  "brief": "Add Telemetry to the Test Framework.",
+  "brief": "",
   "description": "",
   "privacyStatement": "",
   "EULA": "",
   "help": "",
   "url": "",
   "logo": "",
-  "dependencies": [
-    {
-      "id": "23de40a6-dfe8-4f80-80db-d70f83ce8caf",
-      "publisher": "Microsoft",
-      "name": "Test Runner",
-      "version": "22.0.0.0"
-    }
-  ],
+  "dependencies": [],
   "screenshots": [],
   "platform": "1.0.0.0",
   "application": "21.0.0.0",
   "idRanges": [
     {
-      "from": 70100,
-      "to": 70490
+      "from": 70500,
+      "to": 70990
     }
   ],
   "resourceExposurePolicy": {
