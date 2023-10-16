@@ -1,0 +1,20 @@
+name: $(Build.BuildId)
+
+pool: WaldoHetzner
+
+trigger: 
+ branches:
+   include:
+     - main
+     - master
+
+steps:
+- checkout: self
+  clean: true 
+
+- task: ALOpsAppCompiler@2
+  inputs:
+    artifacttype: Sandbox
+    versionselect: Weekly
+    artifactcountry: base
+    appversiontemplate: '1.0.*.0'

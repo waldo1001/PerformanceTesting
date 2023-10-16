@@ -1,10 +1,11 @@
 name: $(Build.BuildId)
 
-trigger:
-  branches:
-    include:
-      - master
-      - main
+trigger: none
+# trigger:
+#   branches:
+#     include:
+#       - master
+#       - main
 
 variables:
   # - group: 'Secrets'  # link to a variable group that has secret variables, like URL to license file, or sasToken for insider builds
@@ -138,16 +139,16 @@ steps:
 
         Set-NAVServerConfiguration -ServerInstance "BC" -KeyName "ApplicationInsightsConnectionString" -KeyValue "$(bcpt_appinsights)" -ApplyTo All
 
-  # - task: ALOpsAppTest@1
-  #   displayName: "ALOps - Run TestSuite"
-  #   inputs:
-  #     usedocker: true
-  #     import_action: "Skip"
-  #     import_testtoolkit: false
-  #     testpage: "130455"
-  #     testsuite: "DEFAULT"
-  #     failed_test_action: "Ignore"
-  #   continueOnError: true
+  - task: ALOpsAppTest@1
+    displayName: "ALOps - Run TestSuite"
+    inputs:
+      usedocker: true
+      import_action: "Skip"
+      import_testtoolkit: false
+      testpage: "130455"
+      testsuite: "DEFAULT"
+      failed_test_action: "Ignore"
+    continueOnError: true
 
   - task: PublishTestResults@2
     displayName: "Publish Test Results **/TestResults.xml"
