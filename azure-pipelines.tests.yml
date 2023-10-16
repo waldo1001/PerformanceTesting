@@ -163,6 +163,15 @@ steps:
   #     export_results: true
   #     suite_code: POS
 
+  - task: ALOpsAgentMaintenance@1
+    inputs:
+      removeoldtasks: true
+      removeunusedcontainers: true
+      pruneimagesdayscreated: '7'
+      pruneimagesosbased: true
+      removebcartifacts: true
+      daysunused: '7'
+
   - task: ALOpsDockerRemove@1
     displayName: "ALOps - Remove Docker Container"
     enabled: true
