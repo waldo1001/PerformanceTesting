@@ -16,8 +16,11 @@ codeunit 69100 "BCPT Install WLD"
     local procedure SetupPOSSuite()
     var
         BCPTTestSuite: Codeunit "BCPT Test Suite";
-
+        RecRef: RecordRef;
     begin
+        RecRef.Open(149000);
+        RecRef.DeleteAll(true);
+
         BCPTTestSuite.CreateTestSuiteHeader('BCPT', 'Actions with a focus on POS', 1, 100, 1000, 20, 'Sales Suite');
         BCPTTestSuite.AddLineToTestSuiteHeader('BCPT', codeunit::"BCPT Createsalesorder", 10, 'Create Sales Orders', 100, 1000, 5, false, '');
     end;

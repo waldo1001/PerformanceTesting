@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "TelemetryOnTests"
+		},
+		{
+			"path": "DailyTelemetry"
 		}
 	],
 	"settings": {}
