@@ -10,7 +10,7 @@ codeunit 68104 "ReadBigTableVeryBadly JQ"
         JustSomeTableWPT.FindSet();
 
         JustSomeTableWPT.Reset();
-        JustSomeTableWPT.SetFilter(Message, '*%1*', 'value');
+        JustSomeTableWPT.SetFilter(Message, '*de*', 'value');
         JustSomeTableWPT.FindSet();
     end;
 }
