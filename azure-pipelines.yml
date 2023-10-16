@@ -1,6 +1,6 @@
 name: $(Build.BuildId)
 
-pool: HOD-DOCKER
+pool: WaldoHetzner
 
 trigger: 
  branches:
