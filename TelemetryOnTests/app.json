@@ -1,6 +1,6 @@
 {
   "id": "fc2a471b-a1ab-4cab-a674-efa1e94f0ad8",
-  "name": "Performance Test App",
+  "name": "Telemetry On Tests",
   "publisher": "waldo",
   "version": "1.0.0.0",
   "brief": "Add Telemetry to the Test Framework.",
