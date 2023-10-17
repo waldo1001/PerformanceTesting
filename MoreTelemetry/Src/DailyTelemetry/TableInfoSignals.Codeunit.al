@@ -47,8 +47,8 @@ codeunit 70504 TableInfoSignals
 
         TableInfoJsonArray.WriteTo(JsonText);
         CustomDimensions.Add('TableInfo', JsonText);
-        CustomDimensions.Add('TotalNoOfRecords', Format(TotalNoOfRecords));
-        CustomDimensions.Add('TotalSizeKB', Format(TotalSize));
+        CustomDimensions.Add('TotalNoOfRecords', Format(TotalNoOfRecords, 0, 9));
+        CustomDimensions.Add('TotalSizeKB', Format(TotalSize, 0, 9));
 
         Telemetry.LogMessage('WLD0009', 'Table Information (Top 10)', Verbosity::Normal, DataClassification::SystemMetadata, TelemetryScope::All, CustomDimensions);
     end;

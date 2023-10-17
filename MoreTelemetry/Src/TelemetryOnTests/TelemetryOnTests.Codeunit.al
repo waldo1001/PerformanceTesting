@@ -119,11 +119,11 @@ codeunit 70502 "Telemetry On Tests"
             TelemetryCustomDimensions.Add('CodeunitId', format(TestMethodLine."Test Codeunit"));
         if TestMethodLine.Function <> '' then
             TelemetryCustomDimensions.Add('MethodName', TestMethodLine.Function);
-        TelemetryCustomDimensions.Add('StartTime', format(TestMethodLine."Start Time"));
-        TelemetryCustomDimensions.Add('EndTime', format(TestMethodLine."Finish Time"));
-        TelemetryCustomDimensions.Add('NoOfSQLStatements', format(TotalNoOfSQL));
-        TelemetryCustomDimensions.Add('NoOfReads', format(TotalNoOfRds));
-        TelemetryCustomDimensions.Add('DurationMs', format(TotalDuration / 1));
+        TelemetryCustomDimensions.Add('StartTime', format(TestMethodLine."Start Time", 0, 9));
+        TelemetryCustomDimensions.Add('EndTime', format(TestMethodLine."Finish Time", 0, 9));
+        TelemetryCustomDimensions.Add('NoOfSQLStatements', format(TotalNoOfSQL, 0, 9));
+        TelemetryCustomDimensions.Add('NoOfReads', format(TotalNoOfRds, 0, 9));
+        TelemetryCustomDimensions.Add('DurationMs', format(TotalDuration / 1, 0, 9));
 
         SignalCollection.Add(TelemetryCustomDimensions);
     end;
