@@ -25,14 +25,16 @@ codeunit 68101 "ReadItemsInAWeirdWay JQ"
             until item.Next() = 0;
 
         ItemLedgerEntries.Reset();
-        ItemLedgerEntries.SetRange("Location Code", '01');
+        ItemLedgerEntries.SetCurrentKey("Location Code");
+        ItemLedgerEntries.SetRange("Location Code", 'B*');
         if ItemLedgerEntries.FindSet() then
             repeat
                 i += 1;
             until ItemLedgerEntries.Next() = 0;
 
         ItemLedgerEntries.Reset();
-        ItemLedgerEntries.SetFilter(Description, '*C');
+        ItemLedgerEntries.SetCurrentKey(Description);
+        ItemLedgerEntries.SetFilter(Description, 'C*');
         if ItemLedgerEntries.FindSet() then
             repeat
                 i += 1;

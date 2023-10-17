@@ -11,8 +11,8 @@ codeunit 68100 InstallJobQueues
     var
         JobQueueEntry: Record "Job Queue Entry";
     begin
-        JobQueueEntry.ScheduleRecurrentJobQueueEntryWithFrequency(5, codeunit::"ReadItemsInAWeirdWay JQ", JobQueueEntry.RecordId, 10);
-        JobQueueEntry.ScheduleRecurrentJobQueueEntryWithFrequency(5, codeunit::"ReadBigTableVeryBadly JQ", JobQueueEntry.RecordId, 10);
+        JobQueueEntry.ScheduleRecurrentJobQueueEntryWithFrequency(5, codeunit::"ReadItemsInAWeirdWay JQ", JobQueueEntry.RecordId, 1);
+        JobQueueEntry.ScheduleRecurrentJobQueueEntryWithFrequency(5, codeunit::"ReadBigTableVeryBadly JQ", JobQueueEntry.RecordId, 1);
     end;
 
 }
