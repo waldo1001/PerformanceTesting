@@ -24,6 +24,29 @@ codeunit 68101 "ReadItemsInAWeirdWay JQ"
                 i += 1;
             until item.Next() = 0;
 
+        item.Reset();
+        item.setcurrentkey("Block Reason");
+        if item.FindSet() then
+            repeat
+                i += 1;
+            until item.Next() = 0;
+
+        item.Reset();
+        item.setcurrentkey("Block Reason");
+        item.setfilter("Block Reason", 'B*');
+        if item.FindSet() then
+            repeat
+                i += 1;
+            until item.Next() = 0;
+
+        item.Reset();
+        item.setcurrentkey("Block Reason");
+        item.setfilter("Block Reason", 'C*');
+        if item.FindSet() then
+            repeat
+                i += 1;
+            until item.Next() = 0;
+
         ItemLedgerEntries.Reset();
         ItemLedgerEntries.SetCurrentKey("Location Code");
         ItemLedgerEntries.SetRange("Location Code", 'B*');
