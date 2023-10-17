@@ -1,0 +1,21 @@
+// API Routes 
+traces
+| where tostring(customDimensions.eventId) in ("ALWLD0010")
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+    , Company = tostring(customDimensions.alCompany)
+    , apiRoutes = tostring(customDimensions.alapiRoutes)
+    , apiPublishers = tostring(customDimensions.alapiPublishers)
+    , NoOfPublishers = tostring(customDimensions.alNoOfPublishers)
+    , NoOfRoutes = tostring(customDimensions.alNoOfRoutes)
+
+
+// API Routes - search publisher
+traces
+| where tostring(customDimensions.eventId) in ("ALWLD0010")
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+    , Company = tostring(customDimensions.alCompany)
+    , apiRoutes = tostring(customDimensions.alapiRoutes)
+    , apiPublishers = tostring(customDimensions.alapiPublishers)
+    , NoOfPublishers = tostring(customDimensions.alNoOfPublishers)
+    , NoOfRoutes = tostring(customDimensions.alNoOfRoutes)
+| where apiPublishers has 'microsoft'

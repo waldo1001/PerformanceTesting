@@ -11,7 +11,7 @@ codeunit 70504 TableInfoSignals
 
     procedure EmitTableInformationSignal();
     var
-        TableInfo: Record "Table Information";
+        TableInfo: Record "Table Information"; //Scope: OnPrem 🙄
         TableInfoJsonArray: JsonArray;
         Telemetry: Codeunit Telemetry;
         CustomDimensions: Dictionary of [Text, Text];
