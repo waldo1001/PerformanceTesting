@@ -1,0 +1,5 @@
+//Tableinformation
+
+traces
+| where tostring(customDimensions.eventId) in ("ALWLD0009")
+| order by timestamp desc

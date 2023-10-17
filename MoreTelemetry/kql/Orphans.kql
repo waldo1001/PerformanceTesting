@@ -1,0 +1,5 @@
+//Orphans
+
+traces
+| where tostring(customDimensions.eventId) in ("ALWLD0005","ALWLD0006","ALWLD0007","ALWLD0008")
+| order by timestamp desc
