@@ -1,0 +1,14 @@
+//Missing indexes Overview
+
+traces
+| where tostring(customDimensions.eventId) in ("ALWLD0004")
+| order by timestamp desc
+| take 10
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+    , Company = tostring(customDimensions.alCompany)
+    , TableName = tostring(customDimensions.alTableName)
+    , EqualityColumns = tostring(customDimensions.alEqualityColumns)
+    , InequalityColumns = tostring(customDimensions.alInequalityColumns)
+    , IncludeColumns = tostring(customDimensions.alIncludeColumns)
+    , ExtensionId = tostring(customDimensions.alExtensionId)
+| order by timestamp desc 
