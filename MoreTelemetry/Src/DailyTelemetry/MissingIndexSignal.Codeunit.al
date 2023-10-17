@@ -1,6 +1,12 @@
 codeunit 70500 "Missing Index Signal"
 {
 
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Telemetry Management", OnSendDailyTelemetry, '', false, false)]
+    local procedure OnSendDailyTelemetry();
+    begin
+        EmitMissingIndexSignal();
+    end;
+
     local procedure EmitMissingIndexSignal()
     var
         DatabaseMissingIndexes: Record "Database Missing Indexes";
@@ -12,15 +18,9 @@ codeunit 70500 "Missing Index Signal"
             repeat
                 SetCustomDimensions(DatabaseMissingIndexes, CustomDimensions);
 
-                Telemetry.LogMessage('WLD0004', 'Missing Index', Verbosity::Warning, DataClassification::SystemMetadata, TelemetryScope::All);
+                Telemetry.LogMessage('WLD0004', 'Missing Index', Verbosity::Warning, DataClassification::SystemMetadata, TelemetryScope::All, CustomDimensions);
             until DatabaseMissingIndexes.next < 1;
 
-    end;
-
-    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Telemetry Management", OnSendDailyTelemetry, '', false, false)]
-    local procedure OnSendDailyTelemetry();
-    begin
-        EmitMissingIndexSignal();
     end;
 
     local procedure SetCustomDimensions(var DatabaseMissingIndexes: Record "Database Missing Indexes"; var CustomDimensions: Dictionary of [Text, Text])

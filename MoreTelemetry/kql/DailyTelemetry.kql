@@ -1,0 +1,3 @@
+traces
+| where tostring(customDimensions.eventId) in ("ALWLD0004")
+| take 10
