@@ -6,6 +6,7 @@ codeunit 68101 "ReadItemsInAWeirdWay JQ"
     var
         Item: Record Item;
         ItemLedgerEntries: record "Item Ledger Entry";
+        GLEntry: Record "G/L Entry";
         i: Integer;
     begin
         item.Reset();
@@ -57,10 +58,27 @@ codeunit 68101 "ReadItemsInAWeirdWay JQ"
 
         ItemLedgerEntries.Reset();
         ItemLedgerEntries.SetCurrentKey(Description);
-        ItemLedgerEntries.SetFilter(Description, 'C*');
+        ItemLedgerEntries.SetFilter(Description, 'T*');
         if ItemLedgerEntries.FindSet() then
             repeat
                 i += 1;
             until ItemLedgerEntries.Next() = 0;
+
+        GLEntry.Reset();
+        GLEntry.SetCurrentKey(Description);
+        GLEntry.SetFilter(Description, 'D*');
+        if GLEntry.FindSet() then
+            repeat
+                i += 1;
+            until GLEntry.Next() = 0;
+
+        GLEntry.Reset();
+        GLEntry.SetCurrentKey(Description);
+        GLEntry.SetFilter(Description, 'F*');
+        if GLEntry.FindSet() then
+            repeat
+                i += 1;
+            until GLEntry.Next() = 0;
+
     end;
 }
