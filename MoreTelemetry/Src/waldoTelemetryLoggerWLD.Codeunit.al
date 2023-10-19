@@ -4,6 +4,8 @@ codeunit 70501 "waldo Telemetry Logger WLD" implements "Telemetry Logger"
 
     procedure LogMessage(EventId: Text; Message: Text; Verbosity: Verbosity; DataClassification: DataClassification; TelemetryScope: TelemetryScope; CustomDimensions: Dictionary of [Text, Text])
     begin
+        CustomDimensions.Add('MessageFromWaldo', 'Telemetry Rulez!');
+
         Session.LogMessage(EventId, Message, Verbosity, DataClassification, TelemetryScope, CustomDimensions);
     end;
 
