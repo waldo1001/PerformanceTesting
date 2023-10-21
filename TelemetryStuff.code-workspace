@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "MoreTelemetry"
+		},
+		{
+			"path": "Scripts"
 		}
 	],
 	"settings": {}
