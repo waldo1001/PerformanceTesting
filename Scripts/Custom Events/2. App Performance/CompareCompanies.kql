@@ -1,0 +1,10 @@
+//Compare specific routine over multiple companies
+
+traces
+| where timestamp >= ago(30d)
+| where customDimensions.eventId == 'ALWLD0011'
+| extend 
+    CompanyName = tostring(customDimensions.alCompany)
+    , Duration = toint(customDimensions.alDuration)
+    , NoSqlStatements = toint(customDimensions.alNoSqlStatements)
+| summarize avgDuration = round(avg(Duration), 0), avgNoSqlStatements = round(avg(NoSqlStatements), 0) by CompanyName, message

@@ -9,6 +9,8 @@ codeunit 70507 "Sales-Post PerfSignal"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", OnBeforePostSalesDoc, '', false, false)]
     local procedure OnBeforePostSalesDoc(var Sender: Codeunit "Sales-Post"; var SalesHeader: Record "Sales Header"; CommitIsSuppressed: Boolean; PreviewMode: Boolean; var HideProgressWindow: Boolean; var IsHandled: Boolean; var CalledBy: Integer);
     begin
+        //Only when webclient?
+
         ProcessIdentifier := CreateGuid();
         AppPerformanceSignal.StartMeasure(ProcessIdentifier, StrSubstNo('Sales-Post %1', format(SalesHeader."Document Type")));
     end;

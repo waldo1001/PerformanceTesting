@@ -1,0 +1,17 @@
+//Missing indexes Per Index
+
+traces
+| where timestamp >= ago(30d)
+| where tostring(customDimensions.eventId) in ("ALWLD0004")
+| order by timestamp desc
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+    , Company = tostring(customDimensions.alCompany)
+    , ExtensionId = tostring(customDimensions.alExtensionId)
+    , TableName = tostring(customDimensions.alTableName)
+    , MissingIndex =  strcat(
+    tostring(customDimensions.alEqualityColumns),
+    tostring(customDimensions.alInequalityColumns),
+    tostring(customDimensions.alIncludeColumns)
+    )
+| where MissingIndex <> ''
+| summarize count = count() by ExtensionId, MissingIndex

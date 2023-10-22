@@ -1,0 +1,32 @@
+//TelemetryOnTests - Overview
+
+traces
+| where timestamp >= ago(30d)
+| where tostring(customDimensions.eventId) in ("ALWLD00001", "ALWLD00002", "ALWLD00003")
+| extend
+    timestamp = timestamp
+    , eventId = customDimensions.eventId
+    , TestSuiteName = tostring(customDimensions.alTestSuiteName)
+    , CodeunitId = tostring(customDimensions.alCodeunitId)
+    , CodeunitName = tostring(customDimensions.alName)
+    , MethodName = tostring(customDimensions.alMethodName)
+    , StartTime = tostring(customDimensions.alStartTime)
+    , EndTime = tostring(customDimensions.alEndTime)
+    , NoOfReads = tostring(customDimensions.alNoOfReads)
+    , NoOfSqlStatements = tostring(customDimensions.alNoOfSQLStatements)
+    , DurationMs = tostring(customDimensions.alDurationMs)
+    , Result = tostring(customDimensions.alResult)
+| project
+    timestamp,
+    eventId,
+    TestSuiteName,
+    CodeunitId,
+    CodeunitName,
+    MethodName,
+    StartTime,
+    EndTime,
+    Result,
+    NoOfReads,
+    NoOfSqlStatements,
+    DurationMs
+
