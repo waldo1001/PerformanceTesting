@@ -17,7 +17,7 @@ page 70500 "Media"
                 {
                     ToolTip = 'Specifies the value of the Company Name field.';
                 }
-                field(Content; Rec.Content)
+                field(Contentje; Rec.Content)
                 {
                     ToolTip = 'Specifies the value of the Content field.';
                 }
