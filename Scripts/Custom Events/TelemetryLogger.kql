@@ -1,0 +1,4 @@
+traces
+| where isnotempty( customDimensions.alMessageFromWaldo)
+| extend alMessageFromWaldo = tostring(customDimensions.alMessageFromWaldo)
+| take 10 
