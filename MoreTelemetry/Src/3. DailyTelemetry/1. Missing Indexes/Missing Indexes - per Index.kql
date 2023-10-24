@@ -14,4 +14,4 @@ traces
     tostring(customDimensions.alIncludeColumns)
     )
 | where MissingIndex <> ''
-| summarize count = count() by ExtensionId, MissingIndex
+| summarize count = count() by ExtensionId,TableName, MissingIndex
