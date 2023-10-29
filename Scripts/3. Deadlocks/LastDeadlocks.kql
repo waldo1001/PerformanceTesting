@@ -34,16 +34,16 @@ traces
     , "UNKNOWN"
     ) 
 | parse kind=regex sqlStatement with selectPart: string "FROM \"SQLDATABASE\".dbo.\"CURRENTCOMPANY\\$" tablename: string "\\$" space: string
-| extend splitStacktrace = split(customDimensions.alStackTrace, "\n")
+| extend splitStacktrace = split(customDimensions.alStackTrace, "\n") 
 | extend lengthStacktrace = array_length(splitStacktrace)
 | extend
     LockingObject = splitStacktrace[0],
     SourceProcess = splitStacktrace[lengthStacktrace - 1]
 | project
     timestamp,
-//        TenantId,
+    //        TenantId,
     userId,
-//        companyName,
+    //        companyName,
     ObjectType,
     ObjectId,
     ObjectName,

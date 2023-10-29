@@ -18,7 +18,7 @@ codeunit 69100 "BCPT Install WLD"
         BCPTTestSuite: Codeunit "BCPT Test Suite";
         RecRef: RecordRef;
     begin
-        RecRef.Open(149000);
+        RecRef.Open(149000); //BCPT Header - Access Internal
         RecRef.DeleteAll(true);
 
         BCPTTestSuite.CreateTestSuiteHeader('BCPT', 'Actions with a focus on POS', 1, 100, 1000, 20, 'Sales Suite');
