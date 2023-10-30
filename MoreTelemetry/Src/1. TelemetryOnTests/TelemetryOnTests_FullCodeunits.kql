@@ -29,4 +29,4 @@ traces
     NoOfReads,
     NoOfSqlStatements,
     DurationMs
-
+| order by timestamp desc

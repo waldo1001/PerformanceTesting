@@ -69,15 +69,15 @@ traces
     isnotempty(bottomOfStackExtensionName), extract('\\\"?[^\\\"]+\\\"?\\([a-zA-Z]+ \\d+\\).(.+) -(.+) by (.+)', 1, bottomOfStackline),
     extract('\\\"?[^\\\"]+\\\"?\\([a-zA-Z]+ \\d+\\).(.+)', 1, bottomOfStackline)
     )
-| extend SourceProcess = strcat(bottomOfStackWhatWasCalled , " - ", bottomOfStackObjectType, " ", bottomOfStackObjectId, " ", bottomOfStackObjectName, " (", bottomOfStackExtensionName, ")")
-    , LockingObject = strcat(topOfStackObjectType, " '", topOfStackObjectName,"'")
+| extend SourceProcess = strcat(bottomOfStackWhatWasCalled, " - ", bottomOfStackObjectType, " ", bottomOfStackObjectId, " ", bottomOfStackObjectName, " (", bottomOfStackExtensionName, ")")
+    , LockingObject = strcat(topOfStackObjectType, " '", topOfStackObjectName, "'")
     , LockingObjectId = tostring(topOfStackObjectId)
     , LockingObjectMethod = tostring(topOfStackWhatWasCalled)
     , LockingObjectExtension = tostring(topOfStackExtensionName)
 | project
     timestamp,
-//    TenantId,
-//    companyName,
+    //    TenantId,
+    //    companyName,
     ObjectType,
     ObjectId,
     ObjectName,
@@ -90,7 +90,7 @@ traces
     SourceProcess,
     StackTrace,
     customDimensions
-| summarize count = count() by tostring(SourceProcess), tostring(LockingObjectExtension), tostring(LockingObject), tostring(LockingObjectId), tostring(LockingObjectMethod),tostring(operationType)
-| order by ['count'],SourceProcess desc 
-
+| where isnotempty(LockingObjectExtension)
+| summarize count = count() by tostring(SourceProcess), tostring(LockingObjectExtension), tostring(LockingObject), tostring(LockingObjectId), tostring(LockingObjectMethod), tostring(operationType)
+| order by ['count'], SourceProcess desc 
 
