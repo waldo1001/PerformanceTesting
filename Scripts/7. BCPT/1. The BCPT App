@@ -1,0 +1,3 @@
+install codeunit:
+- have everything ready for the developer
+- install during DevOps Pipeline

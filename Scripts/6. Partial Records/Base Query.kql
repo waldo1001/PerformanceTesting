@@ -1,7 +1,7 @@
 //Joins/Columns - base query
 
-let MaxNoOfColumns = 50;
-let MaxNoOfJoins = 0;
+let MinNoOfColumns = 50;
+let MinNoOfJoins = 0;
 traces
 // | where customDimensions has "customername"
 | where timestamp >= ago(30d) 
@@ -24,12 +24,12 @@ traces
     , clientType = tostring(customDimensions.clientType)
     , StackTrace = tostring(customDimensions.alStackTrace)
     , executionTime = customDimensions.executionTime
-    , executionTimeInMS = toreal(totimespan(customDimensions.executionTime))/10000
+    , executionTimeInMS = toreal(totimespan(customDimensions.executionTime)) / 10000
     , extensionId = customDimensions.extensionId
     , extensionName = customDimensions.extensionName
     , extensionPublisher = customDimensions.extensionPublisher
-| extend extensionIdsFromJOIN = tostring( extract_all("JOIN \"SQLDATABASE\"\\.dbo\\.\"CURRENTCOMPANY\\$.+?\\$(\\S+?)\"", sqlStatement))
-| extend tablename = tostring( extract_all("FROM \"SQLDATABASE\"\\.dbo\\.\"CURRENTCOMPANY(\\$.+?)\\$\\S+?\"", sqlStatement)[0])
+| extend extensionIdsFromJOIN = tostring(extract_all("JOIN \"SQLDATABASE\"\\.dbo\\.\"CURRENTCOMPANY\\$.+?\\$(\\S+?)\"", sqlStatement))
+| extend tablename = tostring(extract_all("FROM \"SQLDATABASE\"\\.dbo\\.\"CURRENTCOMPANY(\\$.+?)\\$\\S+?\"", sqlStatement)[0])
 | project 
     // TenantId,
     extensionPublisher,
@@ -48,7 +48,7 @@ traces
     tablename,
     sqlStatement,
     extensionIdsFromJOIN
-| where numberOfColumnsSelected > MaxNoOfColumns
-    and numberOfJoins > MaxNoOfJoins
+| where numberOfColumnsSelected > MinNoOfColumns
+    and numberOfJoins > MinNoOfJoins
 | order by numberOfJoins desc 
 | take 1000

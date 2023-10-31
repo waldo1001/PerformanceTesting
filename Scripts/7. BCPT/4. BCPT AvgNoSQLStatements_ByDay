@@ -1,0 +1,18 @@
+//BCPT - By Codeunit By day
+
+traces
+| where timestamp >= ago(30d)
+| where customDimensions.eventId == 'AL0000DGF'
+| where customDimensions.alOperation == 'Scenario'
+// | where customDimensions.alCode == SuiteName
+| extend RunId = tostring(customDimensions.alRunID)
+    , Suite = tostring(customDimensions.alCode)
+    , CodeunitName = tostring(customDimensions.alCodeunitName)
+    , Operation = tostring(customDimensions.alOperation)
+    , Tag = tostring(customDimensions.alTag)
+    , Version = tostring(customDimensions.alVersion)
+    , DurationInMs = toint(customDimensions.alDurationInMs)
+    , NoOfSqlStatements = toint(customDimensions.alNoOfSqlStatements)
+    , Day = format_datetime(timestamp,"yyyy-MM-dd")
+| summarize avgNoOfSqlStatements = avg(NoOfSqlStatements) by CodeunitName, Day
+| order by CodeunitName, Day desc

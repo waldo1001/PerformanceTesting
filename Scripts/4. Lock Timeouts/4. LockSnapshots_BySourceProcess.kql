@@ -1,0 +1,52 @@
+// Amount of UPDLOCK per table - that caused locktimeouts - per Source Process
+
+traces
+| where customDimensions.eventId == "RT0013"
+| where customDimensions.sqlLockRequestMode in ('U', 'X')
+| where isnotempty(customDimensions.alStackTrace)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+    , alObjectType = tostring(customDimensions.alObjectType)
+    , sqlLockRequestMode = tostring(customDimensions.sqlLockRequestMode)
+    , sqlLockRequestStatus = tostring(customDimensions.sqlLockRequestStatus)
+    , sqlLockResourceType = tostring(customDimensions.sqlLockResourceType)
+    , sqlServerSessionId = tostring(customDimensions.sqlServerSessionId)
+    , sqlTableName = tostring(customDimensions.sqlTableName)
+    , sqlStatement = tostring(customDimensions.sqlStatement)
+| parse kind=regex sqlStatement with selectPart: string "FROM \"SQLDATABASE\".dbo.\"CURRENTCOMPANY\\$" tablename: string "\\$" space: string
+| extend splitStacktrace = split(customDimensions.alStackTrace, "\n")
+| extend lengthStacktrace = array_length(splitStacktrace)
+| extend
+    topOfStackline = tostring(splitStacktrace[0]),
+    bottomOfStackline = tostring(splitStacktrace[lengthStacktrace - 1])
+| extend topOfStackObjectName = extract('\\\"?([^\\\"]+)\\\"?\\([a-zA-Z]+ \\d+\\)', 1, topOfStackline)
+| extend topOfStackObjectType = extract('\\(([a-zA-Z]+) \\d+\\)', 1, topOfStackline)
+| extend topOfStackObjectId = extract('\\([a-zA-Z]+ (\\d+)\\)', 1, topOfStackline)
+| extend topOfStackLineNumber = extract(' line (\\d+)', 1, topOfStackline)
+| extend topOfStackExtensionName = case (
+    isnotempty(topOfStackLineNumber), extract('line \\d+ - (.+) by', 1, topOfStackline),
+    extract(' - (.+) by', 1, topOfStackline)
+    )
+| extend topOfStackPublisher = extract('.+ by (.+)', 1, topOfStackline)
+| extend topOfStackWhatWasCalled = case(
+    isnotempty(topOfStackLineNumber), extract('\\\"?[^\\\"]+\\\"?\\([a-zA-Z]+ \\d+\\).(.+) line', 1, topOfStackline),
+    isnotempty(topOfStackExtensionName), extract('\\\"?[^\\\"]+\\\"?\\([a-zA-Z]+ \\d+\\).(.+) -(.+) by (.+)', 1, topOfStackline),
+    extract('\\\"?[^\\\"]+\\\"?\\([a-zA-Z]+ \\d+\\).(.+)', 1, topOfStackline)
+    )
+| extend bottomOfStackObjectName = extract('\\\"?([^\\\"]+)\\\"?\\([a-zA-Z]+ \\d+\\)', 1, bottomOfStackline)
+| extend bottomOfStackObjectType = extract('\\(([a-zA-Z]+) \\d+\\)', 1, bottomOfStackline)
+| extend bottomOfStackObjectId = extract('\\([a-zA-Z]+ (\\d+)\\)', 1, bottomOfStackline)
+| extend bottomOfStackLineNumber = extract(' line (\\d+)', 1, bottomOfStackline)
+| extend bottomOfStackExtensionName = case (
+    isnotempty(bottomOfStackLineNumber), extract('line \\d+ - (.+) by', 1, bottomOfStackline),
+    extract(' - (.+) by', 1, bottomOfStackline)
+    )
+| extend bottomOfStackPublisher = extract('.+ by (.+)', 1, bottomOfStackline)
+| extend bottomOfStackWhatWasCalled = case(
+    isnotempty(bottomOfStackLineNumber), extract('\\\"?[^\\\"]+\\\"?\\([a-zA-Z]+ \\d+\\).(.+) line', 1, bottomOfStackline),
+    isnotempty(bottomOfStackExtensionName), extract('\\\"?[^\\\"]+\\\"?\\([a-zA-Z]+ \\d+\\).(.+) -(.+) by (.+)', 1, bottomOfStackline),
+    extract('\\\"?[^\\\"]+\\\"?\\([a-zA-Z]+ \\d+\\).(.+)', 1, bottomOfStackline)
+    )
+| extend SourceProcess = strcat(bottomOfStackWhatWasCalled, " - ", bottomOfStackObjectType, " ", bottomOfStackObjectId, " ", bottomOfStackObjectName, " (", bottomOfStackExtensionName, ")")
+    , LockingObject = strcat(topOfStackWhatWasCalled, " - ", topOfStackObjectType, " ", topOfStackObjectId, " ", topOfStackObjectName, " (", topOfStackExtensionName, ")")
+| summarize count = count() by tostring(SourceProcess), tostring(LockingObject)
+| order by SourceProcess, ['count'] desc 

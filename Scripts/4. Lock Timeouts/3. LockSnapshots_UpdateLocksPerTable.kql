@@ -1,4 +1,4 @@
-// Amount of UPDLOCK per table - there cause locktimeouts
+// Amount of UPDLOCK per table - that caused locktimeouts
 
 traces
 | where customDimensions.eventId == "RT0013"

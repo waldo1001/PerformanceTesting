@@ -69,12 +69,12 @@ traces
     isnotempty(bottomOfStackExtensionName), extract('\\\"?[^\\\"]+\\\"?\\([a-zA-Z]+ \\d+\\).(.+) -(.+) by (.+)', 1, bottomOfStackline),
     extract('\\\"?[^\\\"]+\\\"?\\([a-zA-Z]+ \\d+\\).(.+)', 1, bottomOfStackline)
     )
-| extend SourceProcess = strcat(bottomOfStackWhatWasCalled , " - ", bottomOfStackObjectType, " ", bottomOfStackObjectId, " ", bottomOfStackObjectName, " (", bottomOfStackExtensionName, ")")
-    , LockingObject = strcat(topOfStackWhatWasCalled , " - ", topOfStackObjectType, " ", topOfStackObjectId, " ", topOfStackObjectName, " (", topOfStackExtensionName, ")")
+| extend SourceProcess = strcat(bottomOfStackWhatWasCalled, " - ", bottomOfStackObjectType, " ", bottomOfStackObjectId, " ", bottomOfStackObjectName, " (", bottomOfStackExtensionName, ")")
+    , LockingObject = strcat(topOfStackWhatWasCalled, " - ", topOfStackObjectType, " ", topOfStackObjectId, " ", topOfStackObjectName, " (", topOfStackExtensionName, ")")
 | project
     timestamp,
-    TenantId,
-    companyName,
+    // TenantId,
+    // companyName,
     ObjectType,
     ObjectId,
     ObjectName,
