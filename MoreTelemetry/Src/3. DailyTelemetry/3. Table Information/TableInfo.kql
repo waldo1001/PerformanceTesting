@@ -1,7 +1,0 @@
-//Tableinformation
-
-traces
-| where tostring(customDimensions.eventId) in ("ALWLD0009")
-| extend aadTenantId = tostring(customDimensions.aadTenantId)
-    , Company = tostring(customDimensions.alCompany)
-| order by timestamp desc

@@ -1,0 +1,15 @@
+//Tableinformation
+
+traces
+| where tostring(customDimensions.eventId) in ("ALWLD0009") //TableInfo
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+    , TotalNoOfRecords = toint(customDimensions.alTotalNoOfRecords)
+    , TotalSizeKB = todecimal(customDimensions.alTotalSizeKB)
+    , CompanyName = tostring(customDimensions.customDimensions_alTableInfo[0].CompanyName)
+| project timestamp
+    , aadTenantId
+    , CompanyName
+    , TotalNoOfRecords
+    , TotalSizeKB
+    , customDimensions.alTableInfo
+| order by timestamp desc
