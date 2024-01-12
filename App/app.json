@@ -30,5 +30,5 @@
     "NoImplicitWith"
   ],
   "target": "OnPrem",
-  "applicationInsightsConnectionString": "InstrumentationKey=444af6dc-a16c-4b09-8c39-3beeec98a6b7;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/"
+  "applicationInsightsConnectionString": "InstrumentationKey=c5149260-22bd-4364-a330-541eeefb9829;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/"
 }
